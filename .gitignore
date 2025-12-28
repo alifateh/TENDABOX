@@ -1,0 +1,9 @@
+# Binaries
+main
+tmp/
+
+# Environment variables
+.env
+
+# Go dependencies
+vendor/
