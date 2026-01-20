@@ -1,0 +1,7 @@
+{"time":"2026-01-20T19:30:46.713190274Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-20T21:43:28.660380968Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-20T21:45:16.236703439Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-20T21:45:34.15581733Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-20T21:45:50.692168673Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-20T21:46:57.968666215Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-20T22:03:36.973801965Z","level":"WARN","msg":"Error in Connecting","Fatal_Error":"failed to connect to `user=root database=Tendabox`:\n\t[::1]:5432 (localhost): dial error: dial tcp [::1]:5432: connect: connection refused\n\t127.0.0.1:5432 (localhost): dial error: dial tcp 127.0.0.1:5432: connect: connection refused"}
