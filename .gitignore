@@ -39,6 +39,8 @@ go.work.sum
 .env
 
 # Editor/IDE
-# .idea/
-# .vscode/
->>>>>>> ac2af0dfb6a8c9f620b6138774655475d068fff9
+.idea/
+.vscode/
+
+#air config
+.air.toml
