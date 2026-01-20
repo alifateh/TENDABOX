@@ -46,5 +46,5 @@ go.work.sum
 .air.toml
 
 #Logs
-internal/logger/Logs/*
-/internal/logger/Logs/*
+internal/logger/Logs
+internal/logger/Logs/App_Logs.log

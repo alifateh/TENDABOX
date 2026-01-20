@@ -4,6 +4,7 @@ import (
 	"Tendabox/internal/logger"
 	"Tendabox/internal/routes"
 	"Tendabox/pkg/database"
+	"log/slog"
 )
 
 func main() {
@@ -11,5 +12,5 @@ func main() {
 	database.Connect()
 	r := routes.SetupRouter()
 	r.Run()
-
+	slog.Info("just for fun")
 }
