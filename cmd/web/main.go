@@ -1,15 +1,15 @@
 package main
 
 import (
-	"gin-learning/internal/logger"
-	"gin-learning/internal/routes"
-	"gin-learning/pkg/database"
+	"Tendabox/internal/logger"
+	//"Tendabox/internal/routes"
+	"Tendabox/pkg/database"
 )
 
 func main() {
 	logger.SetupLogger()
 	database.Connect()
-	r := routes.SetupRouter()
-	r.Run(":9595")
+	//r := routes.SetupRouter()
+	//r.Run()
 
 }

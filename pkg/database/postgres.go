@@ -10,7 +10,7 @@ import (
 var DB *gorm.DB
 
 func Connect() {
-	dsn := "host=localhost user=root password=Xper!@DB1885 dbname=mydatabase port=5432 sslmode=disable"
+	dsn := "host=localhost user=root password=Xper!@DB1885 dbname=Tendabox port=5432 sslmode=disable"
 	var err error
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
 		//Logger: logger.Default.LogMode(logger.Warn),

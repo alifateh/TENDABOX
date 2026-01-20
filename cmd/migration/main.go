@@ -1,9 +1,9 @@
 package main
 
 import (
-	"gin-learning/internal/logger"
-	"gin-learning/internal/models"
-	"gin-learning/pkg/database"
+	"Tendabox/internal/logger"
+	"Tendabox/internal/models"
+	"Tendabox/pkg/database"
 	"log/slog"
 	"time"
 )
