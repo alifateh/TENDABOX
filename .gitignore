@@ -48,3 +48,4 @@ go.work.sum
 #Logs
 internal/logger/Logs
 internal/logger/Logs/App_Logs.log
+
