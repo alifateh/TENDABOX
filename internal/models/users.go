@@ -10,16 +10,17 @@ import (
 )
 
 type User struct {
-	ID        string    `gorm:"type:uuid;primarykey;" json:"id"`
-	FirstName string    `gorm:"column:first_name" json:"first_name"`
-	LastName  string    `gorm:"column:last_name" json:"last_name"`
-	Age       time.Time `gorm:"column:Birthday" json:"dob"`
-	Email     string    `gorm:"unique;index;not null;" json:"email"`
-	Password  string    `gorm:"not null;" json:"-"`
-	Level     string    `gorm:"not null;column:level;" json:"permissions"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-	DeletedAt time.Time `json:"deleted_at"`
+	ID        string         `gorm:"type:uuid;primarykey;" json:"id"`
+	FirstName string         `gorm:"column:first_name" json:"first_name"`
+	LastName  string         `gorm:"column:last_name" json:"last_name"`
+	Email     string         `gorm:"unique;index;not null;" json:"email"`
+	Password  string         `gorm:"not null;" json:"-"`
+	IsActive  bool           `gorm:"column:is_active" json:"is_active"`
+	Role      Roles          `gorm:"foreignKey:RoleUUID"`
+	RoleUUID  string         `gorm:"type:uuid"`
+	CreatedAt time.Time      `json:"created_at"`
+	UpdatedAt time.Time      `json:"updated_at"`
+	DeletedAt gorm.DeletedAt `json:"deleted_at"`
 }
 
 func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
