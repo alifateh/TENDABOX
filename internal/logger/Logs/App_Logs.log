@@ -1,28 +1,19 @@
-{"time":"2026-01-22T15:37:51.599023309Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T15:41:42.539754173Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T15:43:55.388344336Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T15:44:19.2701761Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T15:48:06.973063773Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T15:53:24.029117355Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T15:54:39.083719136Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T15:54:42.937753455Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T16:13:29.926884077Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T16:14:02.613503672Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T16:18:15.651556243Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T16:18:41.810709279Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T16:20:57.707890531Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T16:21:15.048969957Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T16:21:22.124429628Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T16:21:42.483382602Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T16:21:50.186868911Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T16:22:03.633802786Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T16:27:25.754160402Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T16:27:50.609894706Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T16:32:34.228389646Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T16:32:57.060512962Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T16:38:03.148103614Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T16:38:17.371389158Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T16:38:37.454838542Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T16:46:29.561629638Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T16:48:34.049276132Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-22T16:49:20.45974027Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-23T15:51:59.163883269Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-23T15:52:03.14222673Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-23T15:52:23.602711735Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-23T16:36:40.437214224Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-23T16:36:41.988484773Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-23T16:51:58.438015467Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-23T16:52:16.695574914Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-23T16:54:24.125410212Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-23T16:57:20.475727977Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-23T16:58:52.931600354Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-23T16:59:31.691472298Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-23T16:59:37.763907874Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-23T17:00:02.513877565Z","level":"ERROR","msg":"User not found","email":"ali@fateh.com"}
+{"time":"2026-01-23T17:03:00.185511487Z","level":"INFO","msg":"User token check and it was ok","Client IP =":"172.18.0.1"}
+{"time":"2026-01-23T17:03:00.185644662Z","level":"INFO","msg":"Dashboard data requested","user_id":"8b10089b-270e-4a62-b922-6f87deb554a4","User_Level":"admin","Client IP =":"172.18.0.1"}
+{"time":"2026-01-23T17:06:19.982944163Z","level":"INFO","msg":"User token check and it was ok","Client IP =":"172.18.0.1"}
+{"time":"2026-01-23T17:06:19.983081551Z","level":"INFO","msg":"Dashboard data requested","user_id":"6a6604d1-6899-431e-9f12-faac7c46c5ae","User_Level":"vendor_public","Client IP =":"172.18.0.1"}
+{"time":"2026-01-23T17:09:16.963445841Z","level":"INFO","msg":"User token check and it was ok","Client IP =":"172.18.0.1"}
+{"time":"2026-01-23T17:09:16.963581495Z","level":"INFO","msg":"Dashboard data requested","user_id":"45cc98d3-19e6-4a98-b28f-66e9e57a0a6d","User_Level":"vendor_premium","Client IP =":"172.18.0.1"}

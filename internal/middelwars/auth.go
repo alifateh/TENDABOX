@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"gin-learning/pkg/auth"
+	"Tendabox/pkg/auth"
 	"log/slog"
 	"net/http"
 

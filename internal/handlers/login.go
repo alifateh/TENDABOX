@@ -5,49 +5,53 @@ import (
 	"net/http"
 	"strings"
 
+	repo "Tendabox/internal/repositroy"
+	"Tendabox/pkg/auth"
+	"Tendabox/pkg/database"
+
 	"github.com/gin-gonic/gin"
 )
 
 type login_input struct {
-	Email    string `binding:"required;email" json:"email" `
-	Password string `bindingg:"required" json:"password"`
+	Email    string `binding:"required,email" json:"email" `
+	Password string `binding:"required" json:"password"`
 }
 
 func Login(c *gin.Context) {
 	var input login_input
-
-	if err := c.ShouldBindBodyWithJSON(&input); err != nil {
-		slog.Warn("Login attempt with invalid input", "error", err, "Client IP =", c.ClientIP())
-		c.JSON(http.StatusBadRequest, gin.H{"Error": "Invalid Input"})
+	userRepo := repo.NewUserRepository(database.DB)
+	if err := c.ShouldBindJSON(&input); err != nil {
+		slog.Warn("Validation error", "error", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Email address or Password has not well format"})
 		return
 	}
+
 	email := strings.TrimSpace(input.Email)
 
-	user, err := repo.userRepo.GetByEmail(email)
-
+	user, err := userRepo.GetByEmail(email)
 	if err != nil {
-		slog.Error("User fetch failed", "email", email, "error", err, "Client IP =", c.ClientIP())
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "User not found"})
+		slog.Error("User not found", "email", email)
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Email Address is Wrong or Not Registered"})
 		return
 	}
+
 	if err := user.CheckPassword(input.Password); err != nil {
-		slog.Warn("Incorrect password attempt", "email", email, "Client IP =", c.ClientIP())
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Wrong Password"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Password is Wrong"})
 		return
 	}
 
-	token, err := auth.GenerateToken(user.ID, user.Level)
+	roleName := "User"
+	if user.Role.Name != "" {
+		roleName = user.Role.Name
+	}
+
+	token, err := auth.GenerateToken(user.ID, roleName)
 	if err != nil {
-		slog.Error("Failed to generate token", "user_id", user.ID, "err", err, "Client IP =", c.ClientIP())
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Token creation failed"})
+		slog.Error("JWT Error", "err", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Craeting Token is Failed"})
 		return
 	}
-
-	slog.Info("User logged in successfully", "user_id", user.ID, "level", user.Level, "Client IP =", c.ClientIP())
-
-	//Cookie Set
 
 	c.SetCookie("auth_token", token, 3600, "/", "", false, true)
-
 	c.JSON(http.StatusOK, gin.H{"message": "success", "redirect": "/dashboard"})
 }

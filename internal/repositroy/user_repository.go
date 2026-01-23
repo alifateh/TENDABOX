@@ -24,7 +24,8 @@ func NewUserRepository(db *gorm.DB) UserRepository {
 // GetByEmail پیاده‌سازی کوئری دیتابیس
 func (r *userRepository) GetByEmail(email string) (*models.User, error) {
 	var user models.User
-	if err := r.db.Where("email = ?", email).First(&user).Error; err != nil {
+	err := r.db.Preload("Role").Where("email = ?", email).First(&user).Error
+	if err != nil {
 		return nil, err
 	}
 	return &user, nil
