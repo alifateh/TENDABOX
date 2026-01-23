@@ -1,11 +1,28 @@
-{"time":"2026-01-21T00:02:00.825486157Z","level":"WARN","msg":"Error in Connecting","Fatal_Error":"failed to connect to `user=root database=Tendabox`:\n\t127.0.0.1:5432 (localhost): dial error: dial tcp 127.0.0.1:5432: connect: connection refused\n\t[::1]:5432 (localhost): dial error: dial tcp [::1]:5432: connect: connection refused"}
-{"time":"2026-01-21T00:07:01.48518044Z","level":"WARN","msg":"Error in Connecting","Fatal_Error":"failed to connect to `user=root database=Tendabox`:\n\t127.0.0.1:5432 (localhost): dial error: dial tcp 127.0.0.1:5432: connect: connection refused\n\t[::1]:5432 (localhost): dial error: dial tcp [::1]:5432: connect: connection refused"}
-{"time":"2026-01-21T00:07:23.999739413Z","level":"WARN","msg":"Error in Connecting","Fatal_Error":"failed to connect to `user=root database=Tendabox`:\n\t127.0.0.1:5432 (localhost): dial error: dial tcp 127.0.0.1:5432: connect: connection refused\n\t[::1]:5432 (localhost): dial error: dial tcp [::1]:5432: connect: connection refused"}
-{"time":"2026-01-21T00:09:32.054929124Z","level":"WARN","msg":"Error in Connecting","Fatal_Error":"failed to connect to `user=root database=Tendabox`:\n\t127.0.0.1:5432 (localhost): dial error: dial tcp 127.0.0.1:5432: connect: connection refused\n\t[::1]:5432 (localhost): dial error: dial tcp [::1]:5432: connect: connection refused"}
-{"time":"2026-01-21T00:09:59.05435601Z","level":"WARN","msg":"Error in Connecting","Fatal_Error":"failed to connect to `user=root database=postgres`:\n\t127.0.0.1:5432 (localhost): dial error: dial tcp 127.0.0.1:5432: connect: connection refused\n\t[::1]:5432 (localhost): dial error: dial tcp [::1]:5432: connect: connection refused"}
-{"time":"2026-01-21T00:10:53.968395104Z","level":"WARN","msg":"Error in Connecting","Fatal_Error":"failed to connect to `user=root database=Tendabox`:\n\t127.0.0.1:5432 (localhost): dial error: dial tcp 127.0.0.1:5432: connect: connection refused\n\t[::1]:5432 (localhost): dial error: dial tcp [::1]:5432: connect: connection refused"}
-{"time":"2026-01-21T00:15:52.314688055Z","level":"WARN","msg":"Error in Connecting","Fatal_Error":"failed to connect to `user=root database=Tendabox`:\n\t127.0.0.1:5432 (localhost): dial error: dial tcp 127.0.0.1:5432: connect: connection refused\n\t[::1]:5432 (localhost): dial error: dial tcp [::1]:5432: connect: connection refused"}
-{"time":"2026-01-21T00:17:22.252392112Z","level":"WARN","msg":"Error in Connecting","Fatal_Error":"failed to connect to `user=root database=Tendabox`: hostname resolving error: lookup user=root: no such host"}
-{"time":"2026-01-21T00:19:26.777671156Z","level":"WARN","msg":"Error in Connecting","Fatal_Error":"failed to connect to `user=root database=Tendabox`: hostname resolving error: lookup user=root: no such host"}
-{"time":"2026-01-21T00:20:01.200182006Z","level":"INFO","msg":"DB Connectio is Established"}
-{"time":"2026-01-21T00:20:35.539677184Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T15:37:51.599023309Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T15:41:42.539754173Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T15:43:55.388344336Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T15:44:19.2701761Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T15:48:06.973063773Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T15:53:24.029117355Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T15:54:39.083719136Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T15:54:42.937753455Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T16:13:29.926884077Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T16:14:02.613503672Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T16:18:15.651556243Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T16:18:41.810709279Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T16:20:57.707890531Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T16:21:15.048969957Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T16:21:22.124429628Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T16:21:42.483382602Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T16:21:50.186868911Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T16:22:03.633802786Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T16:27:25.754160402Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T16:27:50.609894706Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T16:32:34.228389646Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T16:32:57.060512962Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T16:38:03.148103614Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T16:38:17.371389158Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T16:38:37.454838542Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T16:46:29.561629638Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T16:48:34.049276132Z","level":"INFO","msg":"DB Connectio is Established"}
+{"time":"2026-01-22T16:49:20.45974027Z","level":"INFO","msg":"DB Connectio is Established"}

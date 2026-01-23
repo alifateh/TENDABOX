@@ -53,7 +53,7 @@ func main() {
 	if flag == 0 {
 		err = RunSeed(database.DB)
 		if err != nil {
-			slog.Warn("Failed to Seed", err)
+			slog.Warn("Failed to Seed", "Fatal_Error:", err)
 		} else {
 			slog.Info("All Seeding is Done")
 		}
@@ -79,18 +79,17 @@ func SeedRoles(db *gorm.DB) (map[string]string, error) {
 
 	for _, r := range roles {
 		var role models.Roles
-		err := db.Where("role_name = ?", r.Name).First(&role).Error
 
+		err := db.FirstOrCreate(
+			&role,
+			models.Roles{Name: r.Name},
+		).Error
 		if err != nil {
-			if err != gorm.ErrRecordNotFound {
-				return nil, err
-			}
-
-			role = r
-			if err := db.Create(&role).Error; err != nil {
-				return nil, err
-			}
+			return nil, err
 		}
+
+		// اگر تازه ساخته شده، level را ست کن
+		db.Model(&role).Update("role_level", r.Level)
 
 		roleMap[role.Name] = role.ID
 	}
