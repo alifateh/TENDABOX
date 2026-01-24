@@ -5,6 +5,7 @@ import (
 	middleware "Tendabox/internal/middelwars"
 	"log/slog"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,8 +21,16 @@ func SetupRouter() *gin.Engine {
 	})
 
 	r.GET("/dashboard", func(c *gin.Context) {
-		// این صفحه در سمت کلاینت با JS چک می‌کند که آیا کوکی معتبر است یا خیر
-		c.HTML(http.StatusOK, "NewDashboard.html", nil)
+		c.HTML(http.StatusOK, "Dashboard.html", nil)
+	})
+
+	r.NoRoute(func(c *gin.Context) {
+		slog.Warn("URL Not Found", "Error 404", c.Request.RequestURI)
+		if strings.HasPrefix(c.Request.RequestURI, "/api") {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Endpoint Not Found"})
+			return
+		}
+		c.HTML(http.StatusNotFound, "404.html", gin.H{"Error": "Endpoint Not Found"})
 	})
 
 	v1 := r.Group("/api/v1")

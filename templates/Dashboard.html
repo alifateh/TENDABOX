@@ -5,21 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>TendaBox</title>
     <!--begin::Accessibility Meta Tags-->
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=yes"
-    />
-    <meta name="color-scheme" content="light dark" />
-    <meta
-      name="theme-color"
-      content="#007bff"
-      media="(prefers-color-scheme: light)"
-    />
-    <meta
-      name="theme-color"
-      content="#1a1a1a"
-      media="(prefers-color-scheme: dark)"
-    />
+
     <!--end::Accessibility Meta Tags-->
     <!--begin::Primary Meta Tags-->
     <meta name="title" content="TendaBox" />
@@ -37,7 +23,7 @@
     <!--end::Primary Meta Tags-->
     <!--begin::Accessibility Features-->
     <!-- Skip links will be dynamically added by accessibility.js -->
-    <meta name="supported-color-schemes" content="light dark" />
+        <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico">
     <link rel="preload" href="./static/css/adminlte.css" as="style" />
     <!--end::Accessibility Features-->
     <!--begin::Fonts-->
@@ -215,7 +201,6 @@
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
                     Dashboard
-                    <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
               </li>
@@ -501,7 +486,6 @@
       <!--begin::Footer-->
       <footer class="app-footer">
         <!--begin::To the end-->
-        <div class="float-end d-none d-sm-inline">Anything you want ...</div>
         <!--end::To the end-->
         <!--begin::Copyright-->
         <strong>
@@ -560,63 +544,6 @@
        * -------
        * Here we will create a few charts using apexcharts
        */
-
-      //-----------------------
-      // - MONTHLY SALES CHART -
-      //-----------------------
-
-      const sales_chart_options = {
-        series: [
-          {
-            name: "Digital Goods",
-            data: [28, 48, 40, 19, 86, 27, 90],
-          },
-          {
-            name: "Electronics",
-            data: [65, 59, 80, 81, 56, 55, 40],
-          },
-        ],
-        chart: {
-          height: 180,
-          type: "area",
-          toolbar: {
-            show: false,
-          },
-        },
-        legend: {
-          show: false,
-        },
-        colors: ["#0d6efd", "#20c997"],
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          curve: "smooth",
-        },
-        xaxis: {
-          type: "datetime",
-          categories: [
-            "2023-01-01",
-            "2023-02-01",
-            "2023-03-01",
-            "2023-04-01",
-            "2023-05-01",
-            "2023-06-01",
-            "2023-07-01",
-          ],
-        },
-        tooltip: {
-          x: {
-            format: "MMMM yyyy",
-          },
-        },
-      };
-
-      const sales_chart = new ApexCharts(
-        document.querySelector("#sales-chart"),
-        sales_chart_options,
-      );
-      sales_chart.render();
 
       //-------------
       // - PIE CHART -
