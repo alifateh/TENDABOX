@@ -22,7 +22,7 @@ func Login(c *gin.Context) {
 	userRepo := repo.NewUserRepository(database.DB)
 	if err := c.ShouldBindJSON(&input); err != nil {
 		slog.Warn("Validation error", "error", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Email address or Password has not well format"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Email address is not well formatted"})
 		return
 	}
 

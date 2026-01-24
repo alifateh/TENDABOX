@@ -43,7 +43,7 @@ async function checkAccess() {
     }
 
     const data = await response.json();
-    document.getElementById('userInfo').innerText = "سطح دسترسی شما: " + data.level;
+    document.getElementById('userInfo').innerText = "Your Role is " + data.level;
 
     // --- بخش اصلاح شده ---
     // چک می‌کنیم اگر کاربر Admin یا Supper User بود، بخش مربوطه را نمایش بده
@@ -60,12 +60,12 @@ async function checkAccess() {
         if (response.ok) {
             adminDataDiv.innerHTML = `<div class="alert alert-info">${data.data}</div>`;
         } else {
-            adminDataDiv.innerHTML = `<div class="alert alert-danger">خطا: شما دسترسی ادمین ندارید</div>`;
+            adminDataDiv.innerHTML = `<div class="alert alert-danger">Warrning: You Don NOT Have Admin Role</div>`;
         }
     }
 
     function logout() {
-        // پاک کردن کوکی (ساده‌ترین راه در سمت کلاینت)
+        
         document.cookie = "auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         window.location.href = '/';
     }

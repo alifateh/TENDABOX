@@ -21,7 +21,7 @@ func SetupRouter() *gin.Engine {
 
 	r.GET("/dashboard", func(c *gin.Context) {
 		// این صفحه در سمت کلاینت با JS چک می‌کند که آیا کوکی معتبر است یا خیر
-		c.HTML(http.StatusOK, "dashboard.html", nil)
+		c.HTML(http.StatusOK, "NewDashboard.html", nil)
 	})
 
 	v1 := r.Group("/api/v1")
