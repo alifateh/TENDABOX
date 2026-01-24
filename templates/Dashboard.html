@@ -458,6 +458,14 @@
                     <div class="row">
                       <div class="col-4"><div id="pie-chart"></div></div>
                       <!-- /.col -->
+                       <div id="adminSection" style="display: none; margin-top: 20px;">
+    <h3>بخش مدیریت</h3>
+    <button onclick="fetchAdminStats()" class="btn btn-primary">
+        مشاهده آمار ادمین
+    </button>
+    
+    <div id="adminData" style="margin-top: 10px;"></div>
+</div>
                     </div>
                     <!--end::Row-->
                   </div>
@@ -591,7 +599,7 @@
 
         // --- بخش اصلاح شده ---
         // چک می‌کنیم اگر کاربر Admin یا Supper User بود، بخش مربوطه را نمایش بده
-        if (data.level === "Admin" || data.level === "Supper User") {
+        if (data.level === "admin" || data.level === "super_admin") {
           document.getElementById("adminSection").style.display = "block";
         }
       }
