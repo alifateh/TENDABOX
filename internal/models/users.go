@@ -25,6 +25,7 @@ type User struct {
 
 func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 	u.ID = uuid.New().String()
+	u.IsActive = false
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
 	if err != nil {
 		slog.Warn("This is a Fatal-Error in genrating Password Encryption", "Error", err)

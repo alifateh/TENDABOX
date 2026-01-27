@@ -13,7 +13,7 @@ import (
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*")
-	r.Static("static", "static")
+	r.Static("/static", "./static")
 
 	// --- مسیرهای Frontend (رندر کردن صفحات) ---
 	r.GET("/", func(c *gin.Context) {
@@ -22,6 +22,9 @@ func SetupRouter() *gin.Engine {
 
 	r.GET("/dashboard", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "Dashboard.html", nil)
+	})
+	r.GET("/register", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "register.html", nil)
 	})
 
 	r.NoRoute(func(c *gin.Context) {
