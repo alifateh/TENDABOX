@@ -129,7 +129,7 @@
                 // هدایت به داشبورد در صورت موفقیت
                 window.location.href = data.redirect; 
             } else {
-                messageDiv.innerText = data.error || 'خطا در ورود';
+                messageDiv.innerText = data.error || 'Fatal Error!!!';
             }
         } catch (err) {
             messageDiv.innerText = 'Can Not Connect to Server';

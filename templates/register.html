@@ -103,6 +103,12 @@
           <!-- /.social-auth-links -->
           <p class="mb-0">
             <a href="/" class="text-center"> I already have a membership </a>
+            <br>
+            <br>
+          </p>
+          <p>
+            <div id="message" class="mt-3 text-center text-danger"></div>
+            <br>
           </p>
         </div>
         <!-- /.register-card-body -->
@@ -122,8 +128,7 @@
     <!--end::Script-->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        // ۱. دریافت لیست نقش‌ها از API
-        fetch("/api/roles")
+        fetch("/api/v1/roles")
           .then((response) => response.json())
           .then((data) => {
             const roleSelect = document.getElementById("RoleUUID");
@@ -139,33 +144,49 @@
 
       // ۲. تابع ارسال اطلاعات به سمت سرور
       function submitRegister() {
-        const data = {
-          first_name: document.querySelector('input[placeholder="First Name"]')
-            .value,
-          last_name: document.querySelector('input[placeholder="Last Name"]')
-            .value,
-          email: document.querySelector('input[placeholder="Email"]').value,
-          password: document.querySelector('input[placeholder="Password"]')
-            .value,
-          role_uuid: document.getElementById("RoleUUID").value,
-        };
+  const messageDiv = document.getElementById("message");
+  
+  // پاک کردن پیام قبلی
+  messageDiv.innerText = "";
+  messageDiv.className = "mt-3 text-center"; // ریست کردن کلاس‌ها
 
-        fetch("/api/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        })
-          .then(async (response) => {
-            const result = await response.json();
-            if (response.ok) {
-              alert(result.message);
-              window.location.href = "/login.html"; // انتقال به صفحه لاگین
-            } else {
-              alert("Error: " + result.error);
-            }
-          })
-          .catch((err) => alert("Server error!"));
+  const data = {
+    first_name: document.querySelector('input[placeholder="First Name"]').value,
+    last_name: document.querySelector('input[placeholder="Last Name"]').value,
+    email: document.querySelector('input[placeholder="Email"]').value,
+    password: document.querySelector('input[placeholder="Password"]').value,
+    role_uuid: document.getElementById("RoleUUID").value,
+  };
+
+  fetch("/api/v1/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  })
+    .then(async (response) => {
+      const result = await response.json();
+      
+      if (response.ok) {
+        // وضعیت موفقیت
+        messageDiv.classList.add("text-success");
+        messageDiv.innerText = result.message || "Registration successful!";
+        
+        // وقفه کوتاه برای خواندن پیام و سپس ریدایرکت
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 2000);
+      } else {
+        // وضعیت خطا (مثل ایمیل تکراری یا خطای ولیدیشن)
+        messageDiv.classList.add("text-danger");
+        messageDiv.innerText = result.error || "An error occurred";
       }
+    })
+    .catch((err) => {
+      messageDiv.classList.add("text-danger");
+      messageDiv.innerText = "Internal Server Error. Please try again later.";
+      console.error(err);
+    });
+}
     </script>
   </body>
   <!--end::Body-->

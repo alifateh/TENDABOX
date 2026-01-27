@@ -3,6 +3,7 @@ package routes
 import (
 	"Tendabox/internal/handlers"
 	middleware "Tendabox/internal/middelwars"
+	"Tendabox/pkg/database"
 	"log/slog"
 	"net/http"
 	"strings"
@@ -38,6 +39,11 @@ func SetupRouter() *gin.Engine {
 
 	v1 := r.Group("/api/v1")
 	{
+		v1.GET("/roles", handlers.GetAllRoles)
+		userHandler := handlers.NewUserHandler(database.DB)
+
+		v1.POST("/register", middleware.RegisterValidator(), userHandler.RegisterUser)
+
 		v1.POST("/login", handlers.Login)
 		//protected routes
 		userGroup := v1.Group("/user")

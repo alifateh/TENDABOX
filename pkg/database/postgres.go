@@ -26,6 +26,7 @@ func Connect() {
 
 	if err != nil {
 		slog.Warn("Error in Connecting", "Fatal_Error", err)
+		os.Exit(1)
 	} else {
 		slog.Info("DB Connectio is Established")
 	}
