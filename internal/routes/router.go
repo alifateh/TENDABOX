@@ -42,7 +42,7 @@ func SetupRouter() *gin.Engine {
 		v1.GET("/roles", handlers.GetAllRoles)
 		userHandler := handlers.NewUserHandler(database.DB)
 
-		v1.POST("/register", middleware.RegisterValidator(), userHandler.RegisterUser)
+		v1.POST("/register", middleware.RegisterValidator, userHandler.RegisterUser)
 
 		v1.POST("/login", handlers.Login)
 		//protected routes
