@@ -5,10 +5,21 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>TendaBOX</title>
     <!--begin::Accessibility Meta Tags-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#007bff" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
+    <meta
+      name="theme-color"
+      content="#007bff"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#1a1a1a"
+      media="(prefers-color-scheme: dark)"
+    />
     <!--end::Accessibility Meta Tags-->
     <!--begin::Primary Meta Tags-->
     <meta name="title" content="TendaBOX" />
@@ -45,12 +56,26 @@
           <p class="login-box-msg">Sign in to start your session</p>
           <form action="#" method="post" id="loginForm">
             <div class="input-group mb-3">
-              <input type="email" id="email" class="form-control" placeholder="Email" />
-              <div class="input-group-text"><span class="bi bi-envelope"></span></div>
+              <input
+                type="email"
+                id="email"
+                class="form-control"
+                placeholder="Email"
+              />
+              <div class="input-group-text">
+                <span class="bi bi-envelope"></span>
+              </div>
             </div>
             <div class="input-group mb-3">
-              <input type="password" class="form-control" id="password" placeholder="Password" />
-              <div class="input-group-text"><span class="bi bi-lock-fill" ></span></div>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                placeholder="Password"
+              />
+              <div class="input-group-text">
+                <span class="bi bi-lock-fill"></span>
+              </div>
             </div>
             <!--begin::Row-->
             <div class="row">
@@ -64,7 +89,7 @@
               </div>
               
               -->
-              
+
               <!-- /.col -->
               <div class="col-12">
                 <div class="d-grid gap-2">
@@ -88,10 +113,12 @@
           -->
           <!-- /.social-auth-links -->
           <p class="mb-1"><br /><a href="#">I forgot my password</a></p>
-          <p class="mb-0"><a href="register" class="text-center"> Register a new membership </a></p>
-          <p>
-            <div id="message" class="mt-3 text-center text-danger"></div>
+          <p class="mb-0">
+            <a href="register" class="text-center">
+              Register a new membership
+            </a>
           </p>
+          <div id="message" class="mt-3 text-center text-danger"></div>
         </div>
         <!-- /.login-card-body -->
       </div>
@@ -107,35 +134,35 @@
     <script src="/static/js/adminlte.js"></script>
     <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
 
+    <script>
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const messageDiv = document.getElementById("message");
 
-
-<script>
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const messageDiv = document.getElementById('message');
-
-        try {
-            const response = await fetch('/api/v1/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
+          try {
+            const response = await fetch("/api/v1/login", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email, password }),
             });
 
             const data = await response.json();
 
             if (response.ok) {
-                // هدایت به داشبورد در صورت موفقیت
-                window.location.href = data.redirect; 
+              // هدایت به داشبورد در صورت موفقیت
+              window.location.href = data.redirect;
             } else {
-                messageDiv.innerText = data.error || 'Fatal Error!!!';
+              messageDiv.innerText = data.error || "Fatal Error!!!";
             }
-        } catch (err) {
-            messageDiv.innerText = 'Can Not Connect to Server';
-        }
-    });
-</script>
+          } catch (err) {
+            messageDiv.innerText = "Can Not Connect to Server";
+          }
+        });
+    </script>
     <!--end::OverlayScrollbars Configure-->
     <!--end::Script-->
   </body>

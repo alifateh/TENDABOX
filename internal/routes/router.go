@@ -22,7 +22,10 @@ func SetupRouter() *gin.Engine {
 	})
 
 	r.GET("/dashboard", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "Dashboard.html", nil)
+		c.HTML(http.StatusOK, "dashboard.html", nil)
+	})
+	r.GET("/sample", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "sample.html", nil)
 	})
 	r.GET("/register", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "register.html", nil)

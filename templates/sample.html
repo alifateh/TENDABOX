@@ -23,7 +23,11 @@
     <!--end::Primary Meta Tags-->
     <!--begin::Accessibility Features-->
     <!-- Skip links will be dynamically added by accessibility.js -->
-        <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico">
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="./static/images/favicon.ico"
+    />
     <link rel="preload" href="./static/css/adminlte.css" as="style" />
     <!--end::Accessibility Features-->
     <!--begin::Fonts-->
@@ -151,7 +155,12 @@
                 <!--begin::Menu Footer-->
                 <li class="user-footer">
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
-                  <a href="#" class="btn btn-default btn-flat float-end" onclick="logout()">Sign out</a>
+                  <a
+                    href="#"
+                    class="btn btn-default btn-flat float-end"
+                    onclick="logout()"
+                    >Sign out</a
+                  >
                 </li>
                 <!--end::Menu Footer-->
               </ul>
@@ -168,17 +177,16 @@
         <!--begin::Sidebar Brand-->
         <div class="sidebar-brand">
           <!--begin::Brand Link-->
-          <a href="./index.html" class="brand-link">
-            <!--begin::Brand Image
+          <a href="../index.html" class="brand-link">
+            <!--begin::Brand Image-->
             <img
-              src="static/images/Tenda-logo.png"
-              alt="AdminLTE Logo"
+              src="../assets/img/AdminLTELogo.png"
+              alt="TendaBOX Logo"
               class="brand-image opacity-75 shadow"
             />
-            -->
             <!--end::Brand Image-->
             <!--begin::Brand Text-->
-            <span class="brand-text fw-light">TendaBox</span>
+            <span class="brand-text fw-light">TendaBOX</span>
             <!--end::Brand Text-->
           </a>
           <!--end::Brand Link-->
@@ -197,115 +205,10 @@
               id="navigation"
             >
               <li class="nav-item">
-                <a href="#" class="nav-link active">
+                <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-speedometer"></i>
-                  <p>
-                    Dashboard
-                  </p>
+                  <p>Dashboard</p>
                 </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-box-seam-fill"></i>
-                  <p>
-                    All Tenders
-                    <span class="nav-badge badge text-bg-secondary me-3"
-                      >59</span>
-                    <i class="nav-arrow bi bi-chevron-right"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link active">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Catagory 1</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Catagory 2</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Catagory 3</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-clipboard-fill"></i>
-                  <p>
-                    Cart
-                    <span class="nav-badge badge text-bg-secondary me-3">0</span>
-                    <i class="nav-arrow bi bi-chevron-right"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="./layout/unfixed-sidebar.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Default Sidebar</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./layout/fixed-sidebar.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Fixed Sidebar</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./layout/fixed-header.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Fixed Header</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./layout/fixed-footer.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Fixed Footer</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./layout/fixed-complete.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Fixed Complete</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./layout/layout-custom-area.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Layout <small>+ Custom Area </small></p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./layout/sidebar-mini.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Sidebar Mini</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./layout/collapsed-sidebar.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Sidebar Mini <small>+ Collapsed</small></p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./layout/logo-switch.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Sidebar Mini <small>+ Logo Switch</small></p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./layout/layout-rtl.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Layout RTL</p>
-                    </a>
-                  </li>
-                </ul>
               </li>
             </ul>
             <!--end::Sidebar Menu-->
@@ -322,12 +225,12 @@
           <div class="container-fluid">
             <!--begin::Row-->
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Dashboard</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Sample Page</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
                   <li class="breadcrumb-item active" aria-current="page">
-                    Dashboard
+                    Sample Page
                   </li>
                 </ol>
               </div>
@@ -336,77 +239,15 @@
           </div>
           <!--end::Container-->
         </div>
+        <!--end::App Content Header-->
+        <!--begin::App Content-->
         <div class="app-content">
           <!--begin::Container-->
           <div class="container-fluid">
-            <!-- Info boxes -->
-            <div class="row">
-              <div class="col-12 col-sm-6 col-md-3">
-                <div class="info-box">
-                  <span class="info-box-icon text-bg-primary shadow-sm">
-                    <i class="bi bi-box-seam"></i>
-                  </span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">Goods</span>
-                    <span class="info-box-number">
-                      20
-                    </span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-              </div>
-              <!-- /.col -->
-              <div class="col-12 col-sm-6 col-md-3">
-                <div class="info-box">
-                  <span class="info-box-icon text-bg-danger shadow-sm">
-                    <i class="bi bi-rocket-takeoff"></i>
-                  </span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">Services</span>
-                    <span class="info-box-number">39</span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-              </div>
-              <!-- /.col -->
-              <!-- fix for small devices only -->
-              <!-- <div class="clearfix hidden-md-up"></div> -->
-              <div class="col-12 col-sm-6 col-md-3">
-                <div class="info-box">
-                  <span class="info-box-icon text-bg-success shadow-sm">
-                    <i class="bi bi-layers-half"></i>
-                  </span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">New</span>
-                    <span class="info-box-number">29</span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-              </div>
-              <!-- /.col -->
-              <div class="col-12 col-sm-6 col-md-3">
-                <div class="info-box">
-                  <span class="info-box-icon text-bg-warning shadow-sm">
-                    <i class="bi bi-clock-history"></i>
-                  </span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">Expiring</span>
-                    <span class="info-box-number">6</span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-              </div>
-              <!-- /.col -->
-            </div>
-            <!-- /.row -->
             <!--begin::Row-->
             <div class="row">
               <div class="col-md-12">
-                <div class="card mb-4">
+                <div class="card mb-12">
                   <div class="card-header">
                     <h5 class="card-title">Monthly Recap Report</h5>
                     <div class="card-tools">
@@ -418,27 +259,6 @@
                         <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
                         <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
                       </button>
-                      <div class="btn-group">
-                        <button
-                          type="button"
-                          class="btn btn-tool dropdown-toggle"
-                          data-bs-toggle="dropdown"
-                        >
-                          <i class="bi bi-wrench"></i>
-                        </button>
-                        <div
-                          class="dropdown-menu dropdown-menu-end"
-                          role="menu"
-                        >
-                          <a href="#" class="dropdown-item">Action</a>
-                          <a href="#" class="dropdown-item">Another action</a>
-                          <a href="#" class="dropdown-item">
-                            Something else here
-                          </a>
-                          <a class="dropdown-divider"></a>
-                          <a href="#" class="dropdown-item">Separated link</a>
-                        </div>
-                      </div>
                       <button
                         type="button"
                         class="btn btn-tool"
@@ -450,44 +270,33 @@
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body">
-                    <!--begin::Row-->
-                    <div class="row">
-                  <!-- /.card-header -->
-                  <div class="card-body">
-                    <!--begin::Row-->
-                    <div class="row">
-                      <div class="col-4"><div id="pie-chart"></div></div>
-                      <!-- /.col -->
-                       <div id="adminSection" style="display: none; margin-top: 20px;">
-    <h3>بخش مدیریت</h3>
-    <button onclick="fetchAdminStats()" class="btn btn-primary">
-        مشاهده آمار ادمین
-    </button>
-    
-    <div id="adminData" style="margin-top: 10px;"></div>
-</div>
-                    </div>
-                    <!--end::Row-->
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
                   </div>
+                  <!-- /.card -->
                   <!-- /.card-body -->
-                  
-                  <!-- /.footer -->
-                </div>                      
-                    </div>
-                    <!--end::Row-->
-                  </div>
-                  <!-- /.card-footer -->
                 </div>
                 <!-- /.card -->
               </div>
               <!-- /.col -->
             </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <!--end::Row-->
+            <!-- /.col -->
           </div>
-          <!--end::Container-->
+          <!--end::Row-->
         </div>
+        <!--end::Container-->
         <!--end::App Content-->
       </main>
       <!--end::App Main-->
@@ -497,8 +306,8 @@
         <!--end::To the end-->
         <!--begin::Copyright-->
         <strong>
-          Copyright &copy; 2014-2025&nbsp;
-          <a href="https://TendaBox" class="text-decoration-none">TendaBox</a>.
+          Copyright &copy; 2014-2026&nbsp;
+          <a href="#" class="text-decoration-none">TendaBox</a>.
         </strong>
         All rights reserved.
         <!--end::Copyright-->
@@ -538,53 +347,7 @@
           });
         }
       });
-    </script>
-    <!--end::OverlayScrollbars Configure-->
-    <!-- OPTIONAL SCRIPTS -->
-    <!-- apexcharts -->
-    <script src="./static/js/apexcharts.min.js"></script>
-    <script>
-      // NOTICE!! DO NOT USE ANY OF THIS JAVASCRIPT
-      // IT'S ALL JUST JUNK FOR DEMO
-      // ++++++++++++++++++++++++++++++++++++++++++
 
-      /* apexcharts
-       * -------
-       * Here we will create a few charts using apexcharts
-       */
-
-      //-------------
-      // - PIE CHART -
-      //-------------
-
-      const pie_chart_options = {
-        series: [44, 11, 3, 1],
-        chart: {
-          type: "donut",
-        },
-        labels: ["NGO", "Government", "Funding opportunity", "Corporate"],
-        dataLabels: {
-          enabled: false,
-        },
-        colors: [
-          "#0d6efd",
-          "#20c997",
-          "#ffc107",
-          "#d63384",
-        ],
-      };
-
-      const pie_chart = new ApexCharts(
-        document.querySelector("#pie-chart"),
-        pie_chart_options,
-      );
-      pie_chart.render();
-
-      //-----------------
-      // - END PIE CHART -
-      //-----------------
-    </script>
-    <script>
       async function checkAccess() {
         const response = await fetch("/api/v1/user/dashboard-data");
 
@@ -603,27 +366,9 @@
           document.getElementById("adminSection").style.display = "block";
         }
       }
-
-      async function fetchAdminStats() {
-        const response = await fetch("/api/v1/user/admin/stats");
-        const data = await response.json();
-        const adminDataDiv = document.getElementById("adminData");
-
-        if (response.ok) {
-          adminDataDiv.innerHTML = `<div class="alert alert-info">${data.data}</div>`;
-        } else {
-          adminDataDiv.innerHTML = `<div class="alert alert-danger">Warrning: You Don NOT Have Admin Role</div>`;
-        }
-      }
-
-      function logout() {
-        document.cookie =
-          "auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        window.location.href = "/";
-      }
-
-      checkAccess();
     </script>
+    <!--end::OverlayScrollbars Configure-->
+    <!-- OPTIONAL SCRIPTS -->
     <!--end::Script-->
   </body>
   <!--end::Body-->

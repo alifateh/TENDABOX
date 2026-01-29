@@ -37,19 +37,31 @@
                 type="text"
                 class="form-control"
                 placeholder="First Name"
+                required
+                min="3"
               />
               <div class="input-group-text">
                 <span class="bi bi-person"></span>
               </div>
             </div>
             <div class="input-group mb-3">
-              <input type="text" class="form-control" placeholder="Last Name" />
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Last Name"
+                required
+              />
               <div class="input-group-text">
                 <span class="bi bi-person"></span>
               </div>
             </div>
             <div class="input-group mb-3">
-              <input type="email" class="form-control" placeholder="Email" />
+              <input
+                type="email"
+                class="form-control"
+                placeholder="Email"
+                required
+              />
               <div class="input-group-text">
                 <span class="bi bi-envelope"></span>
               </div>
@@ -59,6 +71,8 @@
                 type="password"
                 class="form-control"
                 placeholder="Password"
+                min="6"
+                required
               />
               <div class="input-group-text">
                 <span class="bi bi-lock-fill"></span>
@@ -103,13 +117,10 @@
           <!-- /.social-auth-links -->
           <p class="mb-0">
             <a href="/" class="text-center"> Back to login </a>
-            <br>
-            <br>
+            <br />
+            <br />
           </p>
-          <p>
-            <div id="message" class="mt-3 text-center text-danger"></div>
-            <br>
-          </p>
+          <div id="message" class="mt-3 text-center text-danger"></div>
         </div>
         <!-- /.register-card-body -->
       </div>
@@ -144,49 +155,54 @@
 
       // ۲. تابع ارسال اطلاعات به سمت سرور
       function submitRegister() {
-  const messageDiv = document.getElementById("message");
-  
-  // پاک کردن پیام قبلی
-  messageDiv.innerText = "";
-  messageDiv.className = "mt-3 text-center"; // ریست کردن کلاس‌ها
+        const messageDiv = document.getElementById("message");
 
-  const data = {
-    first_name: document.querySelector('input[placeholder="First Name"]').value,
-    last_name: document.querySelector('input[placeholder="Last Name"]').value,
-    email: document.querySelector('input[placeholder="Email"]').value,
-    password: document.querySelector('input[placeholder="Password"]').value,
-    role_uuid: document.getElementById("RoleUUID").value,
-  };
+        // پاک کردن پیام قبلی
+        messageDiv.innerText = "";
+        messageDiv.className = "mt-3 text-center"; // ریست کردن کلاس‌ها
 
-  fetch("/api/v1/register", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  })
-    .then(async (response) => {
-      const result = await response.json();
-      
-      if (response.ok) {
-        // وضعیت موفقیت
-        messageDiv.classList.add("text-success");
-        messageDiv.innerText = result.message || "Registration successful!";
-        
-        // وقفه کوتاه برای خواندن پیام و سپس ریدایرکت
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 2000);
-      } else {
-        // وضعیت خطا (مثل ایمیل تکراری یا خطای ولیدیشن)
-        messageDiv.classList.add("text-danger");
-        messageDiv.innerText = result.error || "An error occurred";
+        const data = {
+          first_name: document.querySelector('input[placeholder="First Name"]')
+            .value,
+          last_name: document.querySelector('input[placeholder="Last Name"]')
+            .value,
+          email: document.querySelector('input[placeholder="Email"]').value,
+          password: document.querySelector('input[placeholder="Password"]')
+            .value,
+          role_uuid: document.getElementById("RoleUUID").value,
+        };
+
+        fetch("/api/v1/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        })
+          .then(async (response) => {
+            const result = await response.json();
+
+            if (response.ok) {
+              // وضعیت موفقیت
+              messageDiv.classList.add("text-success");
+              messageDiv.innerText =
+                result.message || "Registration successful!";
+
+              // وقفه کوتاه برای خواندن پیام و سپس ریدایرکت
+              setTimeout(() => {
+                window.location.href = "/";
+              }, 2000);
+            } else {
+              // وضعیت خطا (مثل ایمیل تکراری یا خطای ولیدیشن)
+              messageDiv.classList.add("text-danger");
+              messageDiv.innerText = result.error || "An error occurred";
+            }
+          })
+          .catch((err) => {
+            messageDiv.classList.add("text-danger");
+            messageDiv.innerText =
+              "Internal Server Error. Please try again later.";
+            console.error(err);
+          });
       }
-    })
-    .catch((err) => {
-      messageDiv.classList.add("text-danger");
-      messageDiv.innerText = "Internal Server Error. Please try again later.";
-      console.error(err);
-    });
-}
     </script>
   </body>
   <!--end::Body-->
