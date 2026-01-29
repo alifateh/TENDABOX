@@ -15,6 +15,20 @@ func main() {
 	database.Connect()
 	flag := 0
 
+	err_menu := database.DB.AutoMigrate(&models.MainMenu{})
+	if err_menu != nil {
+		slog.Warn("Failed to migrate Table [Main Menu]", "Error", err_menu)
+		return
+	} else {
+		slog.Info("Migration of Table [Main Menu] is Done")
+		err_seed := SeedMenus(database.DB)
+		if err_seed != nil {
+			slog.Warn("Failed to Seed Table [Main Menu]", "Error", err_seed)
+		} else {
+			slog.Info("Seeding of Table [Main Menu] is Done")
+		}
+	}
+
 	err := database.DB.AutoMigrate(&models.User{})
 	if err != nil {
 		slog.Warn("Failed to migrate Table [User]", "Error", err)
@@ -302,5 +316,59 @@ var rolePermissions = map[string][]string{
 }
 
 //////////////////////////////////////
-//////////////////RBAC////////////////////
+//////////////////Main_Menu////////////////////
 //////////////////////////////////////
+
+func SeedMenus(db *gorm.DB) (err error) {
+	menus := []models.MainMenu{
+		// --- LEVEL 2000: SUPER ADMIN ONLY ---
+		{ItemName: "User Security & Roles", URLPath: "/admin/security", MinLevel: 2000},
+		{ItemName: "System Health & Logs", URLPath: "/admin/system/health", MinLevel: 2000},
+		{ItemName: "Global Settings", URLPath: "/admin/settings", MinLevel: 2000},
+
+		// --- LEVEL 1000: ADMIN ---
+		{ItemName: "User Management", URLPath: "/admin/users", MinLevel: 1000},
+		{ItemName: "Vendor Approval", URLPath: "/admin/vendors/approve", MinLevel: 1000},
+		{ItemName: "Executive Reports", URLPath: "/admin/reports", MinLevel: 1000},
+
+		// --- LEVEL 800: PROCUREMENT MANAGER ---
+		{ItemName: "Tender Management", URLPath: "/procurement/tenders", MinLevel: 800},
+		{ItemName: "Technical Evaluation", URLPath: "/procurement/evaluations", MinLevel: 800},
+		{ItemName: "AI Scoring Engine", URLPath: "/procurement/ai-score", MinLevel: 800},
+
+		// --- LEVEL 700: FINANCE ---
+		{ItemName: "Invoices & Payments", URLPath: "/finance/invoices", MinLevel: 700},
+		{ItemName: "Budget Control", URLPath: "/finance/budget", MinLevel: 700},
+		{ItemName: "Financial Audit Trail", URLPath: "/finance/audit-trail", MinLevel: 700},
+
+		// --- LEVEL 600: AUDITOR (Read-Only access to many things) ---
+		{ItemName: "Audit Dashboard", URLPath: "/audit/dashboard", MinLevel: 600},
+		{ItemName: "All Activity Logs", URLPath: "/audit/logs", MinLevel: 600},
+
+		// --- LEVEL 500: VENDOR PREMIUM ---
+		{ItemName: "Premium Tenders", URLPath: "/vendor/tenders-premium", MinLevel: 500},
+		{ItemName: "My Proposals", URLPath: "/vendor/proposals", MinLevel: 500},
+		{ItemName: "Performance Analytics", URLPath: "/vendor/stats", MinLevel: 500},
+
+		// --- LEVEL 400: BUYER (Internal User) ---
+		{ItemName: "My Purchase Requests", URLPath: "/buyer/requests", MinLevel: 400},
+		{ItemName: "Create New PR", URLPath: "/buyer/requests/new", MinLevel: 400},
+
+		// --- LEVEL 100: VENDOR PUBLIC ---
+		{ItemName: "Public Tenders", URLPath: "/public/tenders", MinLevel: 100},
+		{ItemName: "Company Profile", URLPath: "/vendor/profile", MinLevel: 100},
+
+		// --- LEVEL 50: VIEWER ---
+		{ItemName: "Public Directory", URLPath: "/directory", MinLevel: 50},
+		{ItemName: "General Statistics", URLPath: "/stats/public", MinLevel: 50},
+	}
+
+	for _, menu := range menus {
+		// ابتدا چک میکنیم اگر منو وجود ندارد آن را بسازد (تا از تکرار جلوگیری شود)
+		result := db.FirstOrCreate(&menu, models.MainMenu{URLPath: menu.URLPath})
+		if result.Error != nil {
+			return result.Error
+		}
+	}
+	return nil
+}
