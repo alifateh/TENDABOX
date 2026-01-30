@@ -319,55 +319,63 @@ var rolePermissions = map[string][]string{
 //////////////////Main_Menu////////////////////
 //////////////////////////////////////
 
-func SeedMenus(db *gorm.DB) (err error) {
+func SeedMenus(db *gorm.DB) error {
 	menus := []models.MainMenu{
-		// --- LEVEL 2000: SUPER ADMIN ONLY ---
-		{ItemName: "User Security & Roles", URLPath: "/admin/security", MinLevel: 2000},
-		{ItemName: "System Health & Logs", URLPath: "/admin/system/health", MinLevel: 2000},
-		{ItemName: "Global Settings", URLPath: "/admin/settings", MinLevel: 2000},
+		// --- Standalone Items ---
+		{ItemName: "Dashboard", URLPath: "/dashboard", MinLevel: 50, Icon: "bi bi-speedometer", ParentName: ""},
 
-		// --- LEVEL 1000: ADMIN ---
-		{ItemName: "User Management", URLPath: "/admin/users", MinLevel: 1000},
-		{ItemName: "Vendor Approval", URLPath: "/admin/vendors/approve", MinLevel: 1000},
-		{ItemName: "Executive Reports", URLPath: "/admin/reports", MinLevel: 1000},
+		// --- System Admin Group (Level 2000) ---
+		{ItemName: "User Security & Roles", URLPath: "/admin/security", MinLevel: 2000, Icon: "bi bi-shield-lock", ParentName: "System Control"},
+		{ItemName: "System Health & Logs", URLPath: "/admin/system/health", MinLevel: 2000, Icon: "bi bi-terminal", ParentName: "System Control"},
+		{ItemName: "Global Settings", URLPath: "/admin/settings", MinLevel: 2000, Icon: "bi bi-gear", ParentName: "System Control"},
 
-		// --- LEVEL 800: PROCUREMENT MANAGER ---
-		{ItemName: "Tender Management", URLPath: "/procurement/tenders", MinLevel: 800},
-		{ItemName: "Technical Evaluation", URLPath: "/procurement/evaluations", MinLevel: 800},
-		{ItemName: "AI Scoring Engine", URLPath: "/procurement/ai-score", MinLevel: 800},
+		// --- Admin Management Group (Level 1000) ---
+		{ItemName: "User Management", URLPath: "/admin/users", MinLevel: 1000, Icon: "bi bi-people", ParentName: "Administration"},
+		{ItemName: "Vendor Approval", URLPath: "/admin/vendors/approve", MinLevel: 1000, Icon: "bi bi-person-check", ParentName: "Administration"},
+		{ItemName: "Executive Reports", URLPath: "/admin/reports", MinLevel: 1000, Icon: "bi bi-graph-up-arrow", ParentName: "Administration"},
 
-		// --- LEVEL 700: FINANCE ---
-		{ItemName: "Invoices & Payments", URLPath: "/finance/invoices", MinLevel: 700},
-		{ItemName: "Budget Control", URLPath: "/finance/budget", MinLevel: 700},
-		{ItemName: "Financial Audit Trail", URLPath: "/finance/audit-trail", MinLevel: 700},
+		// --- Procurement Group (Level 800) ---
+		{ItemName: "Tender Management", URLPath: "/procurement/tenders", MinLevel: 800, Icon: "bi bi-pennant", ParentName: "Procurement"},
+		{ItemName: "Technical Evaluation", URLPath: "/procurement/evaluations", MinLevel: 800, Icon: "bi bi-clipboard-check", ParentName: "Procurement"},
+		{ItemName: "AI Scoring Engine", URLPath: "/procurement/ai-score", MinLevel: 800, Icon: "bi bi-cpu", ParentName: "Procurement"},
 
-		// --- LEVEL 600: AUDITOR (Read-Only access to many things) ---
-		{ItemName: "Audit Dashboard", URLPath: "/audit/dashboard", MinLevel: 600},
-		{ItemName: "All Activity Logs", URLPath: "/audit/logs", MinLevel: 600},
+		// --- Finance Group (Level 700) ---
+		{ItemName: "Invoices & Payments", URLPath: "/finance/invoices", MinLevel: 700, Icon: "bi bi-receipt", ParentName: "Finance"},
+		{ItemName: "Budget Control", URLPath: "/finance/budget", MinLevel: 700, Icon: "bi bi-wallet2", ParentName: "Finance"},
+		{ItemName: "Financial Audit Trail", URLPath: "/finance/audit-trail", MinLevel: 700, Icon: "bi bi-currency-dollar", ParentName: "Finance"},
 
-		// --- LEVEL 500: VENDOR PREMIUM ---
-		{ItemName: "Premium Tenders", URLPath: "/vendor/tenders-premium", MinLevel: 500},
-		{ItemName: "My Proposals", URLPath: "/vendor/proposals", MinLevel: 500},
-		{ItemName: "Performance Analytics", URLPath: "/vendor/stats", MinLevel: 500},
+		// --- Auditor Group (Level 600) ---
+		{ItemName: "Audit Dashboard", URLPath: "/audit/dashboard", MinLevel: 600, Icon: "bi bi-shredder", ParentName: "Audit"},
+		{ItemName: "All Activity Logs", URLPath: "/audit/logs", MinLevel: 600, Icon: "bi bi-journal-text", ParentName: "Audit"},
 
-		// --- LEVEL 400: BUYER (Internal User) ---
-		{ItemName: "My Purchase Requests", URLPath: "/buyer/requests", MinLevel: 400},
-		{ItemName: "Create New PR", URLPath: "/buyer/requests/new", MinLevel: 400},
+		// --- Vendor Portal Group (Level 500 & 100) ---
+		{ItemName: "Premium Tenders", URLPath: "/vendor/tenders-premium", MinLevel: 500, Icon: "bi bi-star-fill", ParentName: "Vendor Portal"},
+		{ItemName: "My Proposals", URLPath: "/vendor/proposals", MinLevel: 500, Icon: "bi bi-send", ParentName: "Vendor Portal"},
+		{ItemName: "Performance Analytics", URLPath: "/vendor/stats", MinLevel: 500, Icon: "bi bi-bar-chart-line", ParentName: "Vendor Portal"},
+		{ItemName: "Public Tenders", URLPath: "/public/tenders", MinLevel: 100, Icon: "bi bi-megaphone", ParentName: "Vendor Portal"},
+		{ItemName: "Company Profile", URLPath: "/vendor/profile", MinLevel: 100, Icon: "bi bi-building", ParentName: "Vendor Portal"},
 
-		// --- LEVEL 100: VENDOR PUBLIC ---
-		{ItemName: "Public Tenders", URLPath: "/public/tenders", MinLevel: 100},
-		{ItemName: "Company Profile", URLPath: "/vendor/profile", MinLevel: 100},
+		// --- Internal Buyer Group (Level 400) ---
+		{ItemName: "My Purchase Requests", URLPath: "/buyer/requests", MinLevel: 400, Icon: "bi bi-cart", ParentName: "Purchasing"},
+		{ItemName: "Create New PR", URLPath: "/buyer/requests/new", MinLevel: 400, Icon: "bi bi-cart-plus", ParentName: "Purchasing"},
 
-		// --- LEVEL 50: VIEWER ---
-		{ItemName: "Public Directory", URLPath: "/directory", MinLevel: 50},
-		{ItemName: "General Statistics", URLPath: "/stats/public", MinLevel: 50},
+		// --- Public/Viewer Group (Level 50) ---
+		{ItemName: "Public Directory", URLPath: "/directory", MinLevel: 50, Icon: "bi bi-search", ParentName: "Public Info"},
+		{ItemName: "General Statistics", URLPath: "/stats/public", MinLevel: 50, Icon: "bi bi-pie-chart", ParentName: "Public Info"},
 	}
 
-	for _, menu := range menus {
-		// ابتدا چک میکنیم اگر منو وجود ندارد آن را بسازد (تا از تکرار جلوگیری شود)
-		result := db.FirstOrCreate(&menu, models.MainMenu{URLPath: menu.URLPath})
-		if result.Error != nil {
-			return result.Error
+	for _, m := range menus {
+		// برای جلوگیری از تکرار، از URLPath به عنوان کلید یکتا استفاده می‌کنیم
+		err := db.Where(models.MainMenu{URLPath: m.URLPath}).
+			Assign(models.MainMenu{
+				ItemName:   m.ItemName,
+				MinLevel:   m.MinLevel,
+				Icon:       m.Icon,
+				ParentName: m.ParentName,
+			}).
+			FirstOrCreate(&m).Error
+		if err != nil {
+			return err
 		}
 	}
 	return nil

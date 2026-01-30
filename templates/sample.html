@@ -50,6 +50,38 @@
     <!--end::Required Plugin(AdminLTE)-->
     <!-- apexcharts -->
     <link rel="stylesheet" href="./static/css/apexcharts.css" />
+
+        <style>
+      /* نمایش اجباری لیست اصلی */
+      #mainMenu {
+        display: flex !important;
+        flex-direction: column !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        list-style: none !important;
+        padding: 0 !important;
+      }
+
+      /* استایل آیتم‌های منو */
+      .nav-item {
+        width: 100% !important;
+        display: block !important; /* تغییر از none به block */
+      }
+
+      /* زیرمنوها در حالت عادی مخفی باشند */
+      .nav-treeview {
+        display: none !important;
+      }
+
+      /* زیرمنوها وقتی کلاس menu-open اضافه شد نمایش داده شوند */
+      .menu-open > .nav-treeview {
+        display: block !important;
+      }
+
+      .nav-link {
+        cursor: pointer !important;
+      }
+    </style>
   </head>
   <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
     <!--begin::App Wrapper-->
@@ -88,25 +120,6 @@
                 <span class="dropdown-item dropdown-header"
                   >15 Notifications</span
                 >
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                  <i class="bi bi-envelope me-2"></i> 4 new messages
-                  <span class="float-end text-secondary fs-7">3 mins</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                  <i class="bi bi-people-fill me-2"></i> 8 friend requests
-                  <span class="float-end text-secondary fs-7">12 hours</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                  <i class="bi bi-file-earmark-fill me-2"></i> 3 new reports
-                  <span class="float-end text-secondary fs-7">2 days</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">
-                  See All Notifications
-                </a>
               </div>
             </li>
             <!--end::Notifications Dropdown Menu-->
@@ -134,7 +147,7 @@
                   class="user-image rounded-circle shadow"
                   alt="User Image"
                 />
-                <span class="d-none d-md-inline">Admin</span>
+                <span class="d-none d-md-inline"></span>
               </a>
               <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                 <!--begin::User Image-->
@@ -145,7 +158,7 @@
                     alt="User Image"
                   />
                   <p>
-                    Admin - Web Developer
+                    User name???
                     <small id="userInfo"> Loading ... </small>
                   </p>
                 </li>
@@ -174,91 +187,251 @@
       <!--end::Header-->
       <!--begin::Sidebar-->
       <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
-        <!--begin::Sidebar Brand-->
         <div class="sidebar-brand">
           <!--begin::Brand Link-->
-          <a href="../index.html" class="brand-link">
+          <a href="./index.html" class="brand-link">
             <!--begin::Brand Image-->
-            <img
-              src="../assets/img/AdminLTELogo.png"
-              alt="TendaBOX Logo"
-              class="brand-image opacity-75 shadow"
-            />
+            <img src="./static/images/logos/TendaBox-logo-1.png" alt="TendaBOX" class="brand-image opacity-75 shadow">
             <!--end::Brand Image-->
             <!--begin::Brand Text-->
-            <span class="brand-text fw-light">TendaBOX</span>
             <!--end::Brand Text-->
           </a>
           <!--end::Brand Link-->
         </div>
-        <!--end::Sidebar Brand-->
-        <!--begin::Sidebar Wrapper-->
         <div class="sidebar-wrapper">
           <nav class="mt-2">
-            <!--begin::Sidebar Menu-->
             <ul
               class="nav sidebar-menu flex-column"
               data-lte-toggle="treeview"
-              role="navigation"
-              aria-label="Main navigation"
-              data-accordion="false"
-              id="navigation"
+              role="menu"
+              id="mainMenu"
+              style="visibility: hidden"
             >
-              <li class="nav-item">
-                <a href="#" class="nav-link">
+              <li class="nav-item" data-level="50">
+                <a href="/dashboard" class="nav-link">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>Dashboard</p>
                 </a>
               </li>
-<li class="nav-item">
+
+              <li class="nav-item" data-level="2000">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-box-seam-fill"></i>
+                  <i class="nav-icon bi bi-shield-lock"></i>
                   <p>
-                    cat-1
-                    <span class="nav-badge badge text-bg-secondary me-3"
-                      >59</span
-                    >
-                    <i class="nav-arrow bi bi-chevron-right"></i>
+                    System Control <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="#" class="nav-link active">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Catagory 1</p>
-                    </a>
+                    <a href="/admin/security" class="nav-link"
+                      ><i class="bi bi-circle"></i>
+                      <p>User Security & Roles</p></a
+                    >
                   </li>
                   <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Catagory 2</p>
-                    </a>
+                    <a href="/admin/system/health" class="nav-link"
+                      ><i class="bi bi-terminal"></i>
+                      <p>System Health & Logs</p></a
+                    >
                   </li>
                   <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Catagory 3</p>
-                    </a>
+                    <a href="/admin/settings" class="nav-link"
+                      ><i class="bi bi-gear"></i>
+                      <p>Global Settings</p></a
+                    >
                   </li>
                 </ul>
               </li>
-              <li class="nav-item">
+
+              <li class="nav-item" data-level="1000">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-clipboard-fill"></i>
+                  <i class="nav-icon bi bi-people"></i>
                   <p>
-                    item-2
-                    <span class="nav-badge badge text-bg-secondary me-3"
-                      >0</span
-                    >
-                    <i class="nav-arrow bi bi-chevron-right"></i>
+                    Administration <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
-                </li>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="/admin/users" class="nav-link"
+                      ><i class="bi bi-circle"></i>
+                      <p>User Management</p></a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a href="/admin/vendors/approve" class="nav-link"
+                      ><i class="bi bi-person-check"></i>
+                      <p>Vendor Approval</p></a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a href="/admin/reports" class="nav-link"
+                      ><i class="bi bi-graph-up-arrow"></i>
+                      <p>Executive Reports</p></a
+                    >
+                  </li>
+                </ul>
+              </li>
+
+              <li class="nav-item" data-level="800">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon bi bi-pennant"></i>
+                  <p>
+                    Procurement <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="/procurement/tenders" class="nav-link"
+                      ><i class="bi bi-circle"></i>
+                      <p>Tender Management</p></a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a href="/procurement/evaluations" class="nav-link"
+                      ><i class="bi bi-clipboard-check"></i>
+                      <p>Technical Evaluation</p></a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a href="/procurement/ai-score" class="nav-link"
+                      ><i class="bi bi-cpu"></i>
+                      <p>AI Scoring Engine</p></a
+                    >
+                  </li>
+                </ul>
+              </li>
+
+              <li class="nav-item" data-level="700">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon bi bi-receipt"></i>
+                  <p>Finance <i class="nav-arrow bi bi-chevron-right"></i></p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="/finance/invoices" class="nav-link"
+                      ><i class="bi bi-circle"></i>
+                      <p>Invoices & Payments</p></a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a href="/finance/budget" class="nav-link"
+                      ><i class="bi bi-wallet2"></i>
+                      <p>Budget Control</p></a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a href="/finance/audit-trail" class="nav-link"
+                      ><i class="bi bi-currency-dollar"></i>
+                      <p>Financial Audit Trail</p></a
+                    >
+                  </li>
+                </ul>
+              </li>
+
+              <li class="nav-item" data-level="600">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon bi bi-shredder"></i>
+                  <p>Audit <i class="nav-arrow bi bi-chevron-right"></i></p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="/audit/dashboard" class="nav-link"
+                      ><i class="bi bi-circle"></i>
+                      <p>Audit Dashboard</p></a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a href="/audit/logs" class="nav-link"
+                      ><i class="bi bi-journal-text"></i>
+                      <p>All Activity Logs</p></a
+                    >
+                  </li>
+                </ul>
+              </li>
+
+              <li class="nav-item" data-level="100">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon bi bi-building"></i>
+                  <p>
+                    Vendor Portal <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item" data-level="500">
+                    <a href="/vendor/tenders-premium" class="nav-link"
+                      ><i class="bi bi-star-fill"></i>
+                      <p>Premium Tenders</p></a
+                    >
+                  </li>
+                  <li class="nav-item" data-level="500">
+                    <a href="/vendor/proposals" class="nav-link"
+                      ><i class="bi bi-send"></i>
+                      <p>My Proposals</p></a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a href="/public/tenders" class="nav-link"
+                      ><i class="bi bi-megaphone"></i>
+                      <p>Public Tenders</p></a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a href="/vendor/profile" class="nav-link"
+                      ><i class="bi bi-person"></i>
+                      <p>Company Profile</p></a
+                    >
+                  </li>
+                </ul>
+              </li>
+
+              <li class="nav-item" data-level="400">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon bi bi-cart"></i>
+                  <p>
+                    Purchasing <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="/buyer/requests" class="nav-link"
+                      ><i class="bi bi-circle"></i>
+                      <p>My Purchase Requests</p></a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a href="/buyer/requests/new" class="nav-link"
+                      ><i class="bi bi-cart-plus"></i>
+                      <p>Create New PR</p></a
+                    >
+                  </li>
+                </ul>
+              </li>
+
+              <li class="nav-item" data-level="50">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon bi bi-search"></i>
+                  <p>
+                    Public Info <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="/directory" class="nav-link"
+                      ><i class="bi bi-circle"></i>
+                      <p>Public Directory</p></a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a href="/stats/public" class="nav-link"
+                      ><i class="bi bi-pie-chart"></i>
+                      <p>General Statistics</p></a
+                    >
+                  </li>
+                </ul>
+              </li>
             </ul>
-            <!--end::Sidebar Menu-->
           </nav>
         </div>
-        <!--end::Sidebar Wrapper-->
       </aside>
       <!--end::Sidebar-->
       <!--begin::App Main-->
@@ -293,7 +466,7 @@
               <div class="col-md-12">
                 <div class="card mb-12">
                   <div class="card-header">
-                    <h5 class="card-title">Monthly Recap Report</h5>
+                    <h5 class="card-title">Sample Page</h5>
                     <div class="card-tools">
                       <button
                         type="button"
@@ -387,6 +560,72 @@
           });
         }
       });
+      document.getElementById("current-year").innerHTML =
+        new Date().getFullYear();
+    </script>
+
+    <script>
+      function logout() {
+        document.cookie =
+          "auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        window.location.href = "/";
+      }
+
+      async function filterMenuByNumericLevel() {
+        //console.log("Starting menu filter...");
+        try {
+          const response = await fetch("/api/v1/user/Accesslevel");
+          if (!response.ok) throw new Error("API Response Error");
+
+          const result = await response.json();
+          const roleName = result.level.toLowerCase().trim(); 
+          //console.log("User Role Name:", roleName);
+
+          const roleToLevel = {
+            super_admin: 2000,
+            admin: 1000,
+            procurement: 800,
+            finance: 700,
+            auditor: 600,
+            vendor_premium: 500,
+            buyer: 400,
+            vendor_public: 100,
+            user: 50,
+            guest: 50,
+          };
+          const userLevel = roleToLevel[roleName] || 50;
+          //console.log("User Translated Level:", userLevel);
+
+          const menuItems = document.querySelectorAll(
+            "#mainMenu > li[data-level]",
+          );
+
+          menuItems.forEach((item) => {
+            const minRequiredLevel = parseInt(item.getAttribute("data-level"));
+
+            if (userLevel >= minRequiredLevel) {
+              item.style.setProperty("display", "block", "important");
+              //console.log(
+              //  `✅ Showing: ${item.innerText.split("\n")[0]} (Req: ${minRequiredLevel})`,
+              //);
+            } else {
+              //console.log(
+              //  `❌ Removing: ${item.innerText.split("\n")[0]} (Req: ${minRequiredLevel})`,
+              //);
+              item.remove();
+            }
+          });
+
+          
+          const mainMenu = document.getElementById("mainMenu");
+          mainMenu.style.setProperty("visibility", "visible", "important");
+          mainMenu.style.setProperty("opacity", "1", "important");
+        } catch (error) {
+          console.error("Filter Logic Error:", error);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", filterMenuByNumericLevel);
 
       async function checkAccess() {
         const response = await fetch("/api/v1/user/Accesslevel");
@@ -399,13 +638,8 @@
         const data = await response.json();
         document.getElementById("userInfo").innerText =
           "Your Role is " + data.level;
-        if (data.level === "admin" || data.level === "super_admin") {
-          document.getElementById("adminSection").style.display = "block";
-        }
       }
-
-      document.getElementById("current-year").innerHTML =
-        new Date().getFullYear();
+      checkAccess();
     </script>
     <!--end::OverlayScrollbars Configure-->
     <!-- OPTIONAL SCRIPTS -->

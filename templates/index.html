@@ -48,7 +48,7 @@
   <body class="login-page bg-body-secondary">
     <div class="login-box">
       <div class="login-logo">
-        <a href="#"><b>Tenda</b>Box</a>
+        <a href="#"><b>Tenda</b>BOX</a>
       </div>
       <!-- /.login-logo -->
       <div class="card">
@@ -153,7 +153,6 @@
             const data = await response.json();
 
             if (response.ok) {
-              // هدایت به داشبورد در صورت موفقیت
               window.location.href = data.redirect;
             } else {
               messageDiv.innerText = data.error || "Fatal Error!!!";
