@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"Tendabox/internal/models"
-	"Tendabox/internal/repositroy"
+	repo "Tendabox/internal/repository"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -10,12 +10,12 @@ import (
 )
 
 type UserHandler struct {
-	repo repositroy.UserRepository
+	repo repo.UserRepository
 }
 
 func NewUserHandler(db *gorm.DB) *UserHandler {
 	return &UserHandler{
-		repo: repositroy.NewUserRepository(db),
+		repo: repo.NewUserRepository(db),
 	}
 }
 

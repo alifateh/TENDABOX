@@ -570,7 +570,7 @@
     </script>
     <script>
       async function checkAccess() {
-        const response = await fetch("/api/v1/user/dashboard-data");
+        const response = await fetch("/api/v1/user/Accesslevel");
 
         if (!response.ok) {
           window.location.href = "/";
@@ -581,8 +581,6 @@
         document.getElementById("userInfo").innerText =
           "Your Role is " + data.level;
 
-        // --- بخش اصلاح شده ---
-        // چک می‌کنیم اگر کاربر Admin یا Supper User بود، بخش مربوطه را نمایش بده
         if (data.level === "admin" || data.level === "super_admin") {
           document.getElementById("adminSection").style.display = "block";
         }

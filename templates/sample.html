@@ -389,7 +389,7 @@
       });
 
       async function checkAccess() {
-        const response = await fetch("/api/v1/user/dashboard-data");
+        const response = await fetch("/api/v1/user/Accesslevel");
 
         if (!response.ok) {
           window.location.href = "/";

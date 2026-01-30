@@ -52,16 +52,8 @@ func SetupRouter() *gin.Engine {
 		userGroup := v1.Group("/user")
 		userGroup.Use(middleware.JWTAuth())
 		{
-			userGroup.GET("/dashboard-data", func(c *gin.Context) {
-				userID, _ := c.Get("userID")
-				userLevel, _ := c.Get("userLevel")
-				slog.Info("Dashboard data requested", "user_id", userID, "User_Level", userLevel, "Client IP =", c.ClientIP())
-				c.JSON(http.StatusOK, gin.H{
-					"message": "خوش آمدید، اطلاعات با موفقیت بارگذاری شد",
-					"status":  "authenticated",
-					"level":   userLevel,
-				})
-			})
+			userGroup.GET("/Accesslevel", handlers.GetAccessLevel)
+			userGroup.GET("/MyMenu", handlers.GenerateMenu)
 
 			// مسیرهای مخصوص ادمین و سوپر یوزر (RBAC)
 			adminGroup := userGroup.Group("/admin")

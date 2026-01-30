@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	repo "Tendabox/internal/repositroy"
+	repo "Tendabox/internal/repository"
 	"Tendabox/pkg/auth"
 	"Tendabox/pkg/database"
 

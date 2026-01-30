@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"Tendabox/internal/models"
-	repo "Tendabox/internal/repositroy"
+	repo "Tendabox/internal/repository"
 	"Tendabox/pkg/database"
 
 	"github.com/gin-gonic/gin"
