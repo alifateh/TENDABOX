@@ -57,17 +57,18 @@ func SetupRouter() *gin.Engine {
 
 			// مسیرهای مخصوص ادمین و سوپر یوزر (RBAC)
 			adminGroup := userGroup.Group("/admin")
-			adminGroup.Use(middleware.AuthorizeRole("Admin", "Supper User"))
+			adminGroup.Use(middleware.AuthorizeRole("Admin", "super_admin"))
 			{
-				adminGroup.GET("/stats", func(c *gin.Context) {
+				adminGroup.GET("/security", func(c *gin.Context) {
 					userID, _ := c.Get("userID")
 					slog.Info("Admin stats accessed", "user_id", userID, "Client IP =", c.ClientIP())
-					c.JSON(http.StatusOK, gin.H{
+					c.HTML(200, "admin_security.html", gin.H{
 						"data": "آمار محرمانه سیستم برای مدیران",
 					})
 				})
 			}
 		}
+
 	}
 
 	return r

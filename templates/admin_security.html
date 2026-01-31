@@ -23,23 +23,35 @@
     <!--end::Primary Meta Tags-->
     <!--begin::Accessibility Features-->
     <!-- Skip links will be dynamically added by accessibility.js -->
-    <script>
-      // قبل از لود شدن بقیه المان‌ها دسترسی را چک کن
-      (async () => {
-        const res = await fetch("/api/v1/user/MyMenu");
-        const result = await res.json();
-        const currentPath = window.location.pathname;
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="./static/images/favicon.ico"
+    />
+    <link rel="preload" href="./static/css/adminlte.css" as="style" />
+    <!--end::Accessibility Features-->
+    <!--begin::Fonts-->
+    <link
+      rel="stylesheet"
+      href="./static/css/index.css"
+      integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q="
+      media="print"
+      onload="this.media = 'all'"
+    />
+    <!--end::Fonts-->
+    <!--begin::Third Party Plugin(OverlayScrollbars)-->
+    <link rel="stylesheet" href="./static/css/overlayscrollbars.min.css" />
+    <!--end::Third Party Plugin(OverlayScrollbars)-->
+    <!--begin::Third Party Plugin(Bootstrap Icons)-->
+    <link rel="stylesheet" href="./static/css/bootstrap-icons.min.css" />
+    <!--end::Third Party Plugin(Bootstrap Icons)-->
+    <!--begin::Required Plugin(AdminLTE)-->
+    <link rel="stylesheet" href="./static/css/adminlte.css" />
+    <!--end::Required Plugin(AdminLTE)-->
+    <!-- apexcharts -->
+    <link rel="stylesheet" href="./static/css/apexcharts.css" />
 
-        // اگر صفحه فعلی در لیست مجاز نبود (به جز داشبورد)
-        if (
-          currentPath !== "/dashboard" &&
-          !result.data.some((m) => m.url === currentPath)
-        ) {
-          window.location.href = "/dashboard?error=unauthorized";
-        }
-      })();
-    </script>
-    <style>
+        <style>
       /* نمایش اجباری لیست اصلی */
       #mainMenu {
         display: flex !important;
@@ -70,33 +82,6 @@
         cursor: pointer !important;
       }
     </style>
-    <link
-      rel="shortcut icon"
-      type="image/x-icon"
-      href="./static/images/favicon.ico"
-    />
-    <link rel="preload" href="./static/css/adminlte.css" as="style" />
-    <!--end::Accessibility Features-->
-    <!--begin::Fonts-->
-    <link
-      rel="stylesheet"
-      href="./static/css/index.css"
-      integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q="
-      media="print"
-      onload="this.media = 'all'"
-    />
-    <!--end::Fonts-->
-    <!--begin::Third Party Plugin(OverlayScrollbars)-->
-    <link rel="stylesheet" href="./static/css/overlayscrollbars.min.css" />
-    <!--end::Third Party Plugin(OverlayScrollbars)-->
-    <!--begin::Third Party Plugin(Bootstrap Icons)-->
-    <link rel="stylesheet" href="./static/css/bootstrap-icons.min.css" />
-    <!--end::Third Party Plugin(Bootstrap Icons)-->
-    <!--begin::Required Plugin(AdminLTE)-->
-    <link rel="stylesheet" href="./static/css/adminlte.css" />
-    <!--end::Required Plugin(AdminLTE)-->
-    <!-- apexcharts -->
-    <link rel="stylesheet" href="./static/css/apexcharts.css" />
   </head>
   <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
     <!--begin::App Wrapper-->
@@ -201,7 +186,7 @@
       </nav>
       <!--end::Header-->
       <!--begin::Sidebar-->
-      <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+            <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
         <div class="sidebar-wrapper">
           <nav class="mt-2">
             <ul
@@ -227,7 +212,7 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="/api/v1/user/admin/security" class="nav-link"
+                    <a href="/admin/security" class="nav-link"
                       ><i class="nav-icon bi bi-circle text-warning"></i>
                       <p>User Security & Roles</p></a
                     >
@@ -447,12 +432,12 @@
           <div class="container-fluid">
             <!--begin::Row-->
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Dashboard</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Sample Page</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
                   <li class="breadcrumb-item active" aria-current="page">
-                    Dashboard
+                    Sample Page
                   </li>
                 </ol>
               </div>
@@ -461,77 +446,17 @@
           </div>
           <!--end::Container-->
         </div>
+        <!--end::App Content Header-->
+        <!--begin::App Content-->
         <div class="app-content">
           <!--begin::Container-->
           <div class="container-fluid">
-            <!-- Info boxes -->
-            <div class="row">
-              <div class="col-12 col-sm-6 col-md-3">
-                <div class="info-box">
-                  <span class="info-box-icon text-bg-primary shadow-sm">
-                    <i class="bi bi-box-seam"></i>
-                  </span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">Goods</span>
-                    <span class="info-box-number"> 20 </span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-              </div>
-              <!-- /.col -->
-              <div class="col-12 col-sm-6 col-md-3">
-                <div class="info-box">
-                  <span class="info-box-icon text-bg-danger shadow-sm">
-                    <i class="bi bi-rocket-takeoff"></i>
-                  </span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">Services</span>
-                    <span class="info-box-number">39</span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-              </div>
-              <!-- /.col -->
-              <!-- fix for small devices only -->
-              <!-- <div class="clearfix hidden-md-up"></div> -->
-              <div class="col-12 col-sm-6 col-md-3">
-                <div class="info-box">
-                  <span class="info-box-icon text-bg-success shadow-sm">
-                    <i class="bi bi-layers-half"></i>
-                  </span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">New</span>
-                    <span class="info-box-number">29</span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-              </div>
-              <!-- /.col -->
-              <div class="col-12 col-sm-6 col-md-3">
-                <div class="info-box">
-                  <span class="info-box-icon text-bg-warning shadow-sm">
-                    <i class="bi bi-clock-history"></i>
-                  </span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">Expiring</span>
-                    <span class="info-box-number">6</span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-              </div>
-              <!-- /.col -->
-            </div>
-            <!-- /.row -->
             <!--begin::Row-->
             <div class="row">
               <div class="col-md-12">
                 <div class="card mb-12">
                   <div class="card-header">
-                    <h5 class="card-title">Monthly Recap Report</h5>
+                    <h5 class="card-title">Sample Page</h5>
                     <div class="card-tools">
                       <button
                         type="button"
@@ -552,32 +477,31 @@
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body">
-                    <!--begin::Row-->
-                    <div class="row">
-                      <!-- /.card-header -->
-                      <div class="card-body">
-                        <!--begin::Row-->
-                        <div class="row">
-                          <div class="col-4"><div id="pie-chart"></div></div>
-                          <!-- /.col -->
-                        </div>
-                        <!--end::Row-->
-                      </div>
-                      <!-- /.card-body -->
-
-                      <!-- /.footer -->
-                    </div>
+                    {{.data}}
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
                   </div>
-                  <!--end::Row-->
+                  <!-- /.card -->
+                  <!-- /.card-body -->
                 </div>
-                <!-- /.card-footer -->
+                <!-- /.card -->
               </div>
-              <!-- /.card -->
+              <!-- /.col -->
             </div>
             <!-- /.col -->
           </div>
-          <!--end::Row-->
-          <!--begin::Row-->
           <!--end::Row-->
         </div>
         <!--end::Container-->
@@ -630,46 +554,7 @@
       document.getElementById("current-year").innerHTML =
         new Date().getFullYear();
     </script>
-    <!--end::OverlayScrollbars Configure-->
-    <!-- apexcharts -->
-    <script src="./static/js/apexcharts.min.js"></script>
-    <!-- OPTIONAL SCRIPTS -->
-    <script>
-      // NOTICE!! DO NOT USE ANY OF THIS JAVASCRIPT
-      // IT'S ALL JUST JUNK FOR DEMO
-      // ++++++++++++++++++++++++++++++++++++++++++
 
-      /* apexcharts
-       * -------
-       * Here we will create a few charts using apexcharts
-       */
-
-      //-------------
-      // - PIE CHART -
-      //-------------
-
-      const pie_chart_options = {
-        series: [44, 11, 3, 1],
-        chart: {
-          type: "donut",
-        },
-        labels: ["NGO", "Government", "Funding opportunity", "Corporate"],
-        dataLabels: {
-          enabled: false,
-        },
-        colors: ["#0d6efd", "#20c997", "#ffc107", "#d63384"],
-      };
-
-      const pie_chart = new ApexCharts(
-        document.querySelector("#pie-chart"),
-        pie_chart_options,
-      );
-      pie_chart.render();
-
-      //-----------------
-      // - END PIE CHART -
-      //-----------------
-    </script>
     <script>
       function logout() {
         document.cookie =
@@ -732,7 +617,8 @@
       }
 
       document.addEventListener("DOMContentLoaded", filterMenuByNumericLevel);
-            async function checkAccess() {
+
+      async function checkAccess() {
         const response = await fetch("/api/v1/user/Accesslevel");
 
         if (!response.ok) {
@@ -746,6 +632,8 @@
       }
       checkAccess();
     </script>
+    <!--end::OverlayScrollbars Configure-->
+    <!-- OPTIONAL SCRIPTS -->
     <!--end::Script-->
   </body>
   <!--end::Body-->
