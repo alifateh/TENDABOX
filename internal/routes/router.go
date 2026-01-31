@@ -3,6 +3,7 @@ package routes
 import (
 	"Tendabox/internal/handlers"
 	middleware "Tendabox/internal/middelwars"
+	repositroy "Tendabox/internal/repository"
 	"Tendabox/pkg/database"
 	"log/slog"
 	"net/http"
@@ -14,21 +15,27 @@ import (
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*")
-	r.Static("/static", "./static")
+	r.Static("./static", "./static")
 
 	// --- مسیرهای Frontend (رندر کردن صفحات) ---
 	r.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", nil)
+		c.HTML(http.StatusOK, "index.html", gin.H{
+			"title": "TendaBOX",
+		})
 	})
 
 	r.GET("/dashboard", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "dashboard.html", nil)
+		c.HTML(http.StatusOK, "dashboard.html", gin.H{
+			"title": "Dashboard",
+		})
 	})
 	r.GET("/sample", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "sample.html", nil)
 	})
 	r.GET("/register", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "register.html", nil)
+		c.HTML(http.StatusOK, "register.html", gin.H{
+			"title": "Registeration",
+		})
 	})
 
 	r.NoRoute(func(c *gin.Context) {
@@ -55,17 +62,20 @@ func SetupRouter() *gin.Engine {
 			userGroup.GET("/Accesslevel", handlers.GetAccessLevel)
 			userGroup.GET("/MyMenu", handlers.GenerateMenu)
 
-			// مسیرهای مخصوص ادمین و سوپر یوزر (RBAC)
+			//Admin Routes
 			adminGroup := userGroup.Group("/admin")
 			adminGroup.Use(middleware.AuthorizeRole("Admin", "super_admin"))
 			{
 				adminGroup.GET("/security", func(c *gin.Context) {
-					userID, _ := c.Get("userID")
-					slog.Info("Admin stats accessed", "user_id", userID, "Client IP =", c.ClientIP())
 					c.HTML(200, "admin_security.html", gin.H{
-						"data": "آمار محرمانه سیستم برای مدیران",
+						"title": "Manage User's Roles",
 					})
+
 				})
+				userRepo := repositroy.NewUserRepository(database.DB)
+				userHandler := handlers.NewUserRoleHandler(userRepo)
+				adminGroup.GET("/AllUsersList", userHandler.ListAllUsers)
+				adminGroup.GET("/UpdateRole", userHandler.UpdateRole)
 			}
 		}
 

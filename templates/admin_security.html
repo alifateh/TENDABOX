@@ -3,7 +3,7 @@
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>TendaBox</title>
+    <title>{{.title}}</title>
     <!--begin::Accessibility Meta Tags-->
 
     <!--end::Accessibility Meta Tags-->
@@ -26,32 +26,32 @@
     <link
       rel="shortcut icon"
       type="image/x-icon"
-      href="./static/images/favicon.ico"
+      href="/static/images/favicon.ico"
     />
-    <link rel="preload" href="./static/css/adminlte.css" as="style" />
+    <link rel="preload" href="/static/css/adminlte.css" as="style" />
     <!--end::Accessibility Features-->
     <!--begin::Fonts-->
     <link
       rel="stylesheet"
-      href="./static/css/index.css"
+      href="/static/css/index.css"
       integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q="
       media="print"
       onload="this.media = 'all'"
     />
     <!--end::Fonts-->
     <!--begin::Third Party Plugin(OverlayScrollbars)-->
-    <link rel="stylesheet" href="./static/css/overlayscrollbars.min.css" />
+    <link rel="stylesheet" href="/static/css/overlayscrollbars.min.css" />
     <!--end::Third Party Plugin(OverlayScrollbars)-->
     <!--begin::Third Party Plugin(Bootstrap Icons)-->
-    <link rel="stylesheet" href="./static/css/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap-icons.min.css" />
     <!--end::Third Party Plugin(Bootstrap Icons)-->
     <!--begin::Required Plugin(AdminLTE)-->
-    <link rel="stylesheet" href="./static/css/adminlte.css" />
+    <link rel="stylesheet" href="/static/css/adminlte.css" />
     <!--end::Required Plugin(AdminLTE)-->
     <!-- apexcharts -->
-    <link rel="stylesheet" href="./static/css/apexcharts.css" />
+    <link rel="stylesheet" href="/static/css/apexcharts.css" />
 
-        <style>
+    <style>
       /* نمایش اجباری لیست اصلی */
       #mainMenu {
         display: flex !important;
@@ -143,7 +143,7 @@
                 data-bs-toggle="dropdown"
               >
                 <img
-                  src="./static/images/avatar.png"
+                  src="/static/images/avatar.png"
                   class="user-image rounded-circle shadow"
                   alt="User Image"
                 />
@@ -153,7 +153,7 @@
                 <!--begin::User Image-->
                 <li class="user-header text-bg-primary">
                   <img
-                    src="./static/images/avatar.png"
+                    src="/static/images/avatar.png"
                     class="rounded-circle shadow"
                     alt="User Image"
                   />
@@ -186,7 +186,7 @@
       </nav>
       <!--end::Header-->
       <!--begin::Sidebar-->
-            <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+      <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
         <div class="sidebar-wrapper">
           <nav class="mt-2">
             <ul
@@ -326,7 +326,7 @@
                   <li class="nav-item">
                     <a href="/audit/dashboard" class="nav-link"
                       ><i class="nav-icon bi bi-circle text-danger"></i>
-                      
+
                       <p>Audit Dashboard</p></a
                     >
                   </li>
@@ -432,12 +432,12 @@
           <div class="container-fluid">
             <!--begin::Row-->
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Sample Page</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Manage User's Role</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
                   <li class="breadcrumb-item active" aria-current="page">
-                    Sample Page
+                    Manage User's Role
                   </li>
                 </ol>
               </div>
@@ -456,7 +456,7 @@
               <div class="col-md-12">
                 <div class="card mb-12">
                   <div class="card-header">
-                    <h5 class="card-title">Sample Page</h5>
+                    <h5 class="card-title">Manage User's Role</h5>
                     <div class="card-tools">
                       <button
                         type="button"
@@ -477,24 +477,40 @@
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body">
-                    {{.data}}
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>First Name</th>
+                          <th>Last Name</th>
+                          <th style="width: 40px">Role</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="userTableBody">
+                      </tbody>
+                    </table>
                   </div>
                   <!-- /.card -->
                   <!-- /.card-body -->
+                  <div class="card-footer clearfix">
+                    <ul class="pagination pagination-sm m-0 float-end">
+                      <li class="page-item">
+                        <a class="page-link" href="#">&laquo;</a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="#">1</a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="#">&raquo;</a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
                 <!-- /.card -->
               </div>
@@ -521,13 +537,13 @@
     <!--end::App Wrapper-->
     <!--begin::Script-->
     <!--begin::Third Party Plugin(OverlayScrollbars)-->
-    <script src="./static/js/overlayscrollbars.browser.es6.min.js"></script>
+    <script src="/static/js/overlayscrollbars.browser.es6.min.js"></script>
     <!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Required Plugin(popperjs for Bootstrap 5)-->
-    <script src="./static/js/popper.min.js"></script>
+    <script src="/static/js/popper.min.js"></script>
     <!--end::Required Plugin(popperjs for Bootstrap 5)--><!--begin::Required Plugin(Bootstrap 5)-->
-    <script src="./static/js/bootstrap.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
     <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
-    <script src="./static/js/adminlte.js"></script>
+    <script src="/static/js/adminlte.js"></script>
     <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
     <script>
       const SELECTOR_SIDEBAR_WRAPPER = ".sidebar-wrapper";
@@ -569,7 +585,7 @@
           if (!response.ok) throw new Error("API Response Error");
 
           const result = await response.json();
-          const roleName = result.level.toLowerCase().trim(); 
+          const roleName = result.level.toLowerCase().trim();
           //console.log("User Role Name:", roleName);
 
           const roleToLevel = {
@@ -607,7 +623,6 @@
             }
           });
 
-          
           const mainMenu = document.getElementById("mainMenu");
           mainMenu.style.setProperty("visibility", "visible", "important");
           mainMenu.style.setProperty("opacity", "1", "important");
@@ -615,8 +630,6 @@
           console.error("Filter Logic Error:", error);
         }
       }
-
-      document.addEventListener("DOMContentLoaded", filterMenuByNumericLevel);
 
       async function checkAccess() {
         const response = await fetch("/api/v1/user/Accesslevel");
@@ -630,7 +643,47 @@
         document.getElementById("userInfo").innerText =
           "Your Role is " + data.level;
       }
+
+      async function loadUsers() {
+        try {
+          const response = await fetch("/api/v1/user/admin/AllUsersList");
+          if (!response.ok) throw new Error("Failed to fetch users");
+
+          const users = await response.json();
+          const tableBody = document.getElementById("userTableBody");
+
+          // پاک کردن محتوای قبلی جدول
+          tableBody.innerHTML = "";
+
+          users.forEach((user) => {
+            const row = document.createElement("tr");
+            row.className = "align-middle";
+
+            // ایجاد محتوای ردیف
+            row.innerHTML = `
+                <td>${user.first_name}</td>
+                <td>${user.last_name}</td>
+                <td><span class="badge bg-secondary">${user.RoleUUID.substring(0, 8)}...</span></td>
+                <td>
+                    <form action="/admin/security/changeRole" method="GET">
+                        <input type="hidden" name="userID" value="${user.id}">
+                        <input type="hidden" name="UserRole" value="${user.RoleUUID}">
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            <i class="bi bi-pencil-square"></i> Change Role
+                        </button>
+                    </form>
+                </td>
+            `;
+            tableBody.appendChild(row);
+          });
+        } catch (error) {
+          console.error("Error loading table:", error);
+        }
+      }
+
       checkAccess();
+      document.addEventListener("DOMContentLoaded", filterMenuByNumericLevel);
+      document.addEventListener("DOMContentLoaded", loadUsers);
     </script>
     <!--end::OverlayScrollbars Configure-->
     <!-- OPTIONAL SCRIPTS -->

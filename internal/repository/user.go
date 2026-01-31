@@ -3,15 +3,17 @@ package repositroy
 import (
 	"Tendabox/internal/models"
 	"fmt"
+	"log/slog"
 
 	"gorm.io/gorm"
 )
 
-// UserRepository تعریف رفتارها
+// UserRepository
 type UserRepository interface {
 	GetByEmail(email string) (*models.User, error)
+	GetAllUsers() ([]models.User, error)
 	CreateUser(user *models.User) error
-	// می‌توانید متدهای دیگر مثل Create یا Update را اینجا اضافه کنید
+	UpdateUserRole(UserID string, RoleUUID string) (err error)
 }
 
 type userRepository struct {
@@ -23,7 +25,6 @@ func NewUserRepository(db *gorm.DB) UserRepository {
 	return &userRepository{db: db}
 }
 
-// GetByEmail پیاده‌سازی کوئری دیتابیس
 func (r *userRepository) GetByEmail(email string) (*models.User, error) {
 	var user models.User
 	err := r.db.Preload("Role").Where("email = ?", email).First(&user).Error
@@ -34,20 +35,44 @@ func (r *userRepository) GetByEmail(email string) (*models.User, error) {
 }
 
 func (r *userRepository) CreateUser(user *models.User) error {
-	// ۱. بررسی اینکه آیا ایمیل از قبل وجود دارد یا خیر
 	var count int64
 	r.db.Model(&models.User{}).Where("email = ?", user.Email).Count(&count)
 
 	if count > 0 {
-		// بازگرداندن یک خطای سفارشی که در Handler قابل شناسایی باشد
 		return fmt.Errorf("user_already_exists")
 	}
 
-	// ۲. تلاش برای ایجاد کاربر جدید
-	// نکته: &user را به user تغییر دادم چون خودش پوینتر است
 	result := r.db.Create(user)
 	if result.Error != nil {
 		return result.Error
 	}
 	return nil
+}
+
+func (r *userRepository) UpdateUserRole(UserID string, RoleUUID string) (err error) {
+
+	result := r.db.Model(&models.User{}).
+		Where("id = ?", UserID).
+		Update("role_uuid", RoleUUID)
+
+	if result.Error != nil {
+		slog.Error("Failed to update user role", "userID", UserID, "error", result.Error)
+		return result.Error
+	}
+	if result.RowsAffected == 0 {
+		slog.Warn("No user found to update role", "userID", UserID)
+		return fmt.Errorf("user not found")
+	}
+	return nil
+
+}
+
+func (r *userRepository) GetAllUsers() ([]models.User, error) {
+	var Users []models.User
+	err := r.db.Find(&Users).Error
+	if err != nil {
+		slog.Error("Fatal Error select all users")
+		return nil, err
+	}
+	return Users, nil
 }
