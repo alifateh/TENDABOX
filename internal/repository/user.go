@@ -11,7 +11,7 @@ import (
 // UserRepository
 type UserRepository interface {
 	GetByEmail(email string) (*models.User, error)
-	GetAllUsers() ([]models.User, error)
+	GetAllUsers(page int, pageSize int) ([]models.User, int64, error)
 	CreateUser(user *models.User) error
 	UpdateUserRole(UserID string, RoleUUID string) (err error)
 }
@@ -21,8 +21,8 @@ type userRepository struct {
 }
 
 // NewUserRepository سازنده ریپازیتوری
-func NewUserRepository(db *gorm.DB) UserRepository {
-	return &userRepository{db: db}
+func NewUserRepository(DB *gorm.DB) UserRepository {
+	return &userRepository{db: DB}
 }
 
 func (r *userRepository) GetByEmail(email string) (*models.User, error) {
@@ -67,12 +67,21 @@ func (r *userRepository) UpdateUserRole(UserID string, RoleUUID string) (err err
 
 }
 
-func (r *userRepository) GetAllUsers() ([]models.User, error) {
-	var Users []models.User
-	err := r.db.Find(&Users).Error
+// اضافه کردن پارامترهای صفحه و اندازه صفحه
+func (r *userRepository) GetAllUsers(page int, pageSize int) ([]models.User, int64, error) {
+	var users []models.User
+	var total int64
+
+	// ابتدا کل تعداد کاربران را برای محاسبه تعداد صفحات در فرانت می‌گیریم
+	r.db.Model(&models.User{}).Count(&total)
+
+	// محاسبه افست: (page - 1) * pageSize
+	offset := (page - 1) * pageSize
+
+	err := r.db.Limit(pageSize).Offset(offset).Find(&users).Error
 	if err != nil {
-		slog.Error("Fatal Error select all users")
-		return nil, err
+		return nil, 0, err
 	}
-	return Users, nil
+
+	return users, total, nil
 }

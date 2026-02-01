@@ -3,7 +3,9 @@ package handlers
 import (
 	repositroy "Tendabox/internal/repository"
 	"log/slog"
+	"math"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -56,10 +58,24 @@ func (h *UserRoleHandler) UpdateRole(c *gin.Context) {
 }
 
 func (h *UserRoleHandler) ListAllUsers(c *gin.Context) {
-	list, err := h.repo.GetAllUsers()
+	// گرفتن مقادیر از URL با مقادیر پیش‌فرض
+	pageStr := c.DefaultQuery("page", "1")
+	limitStr := c.DefaultQuery("limit", "10")
+
+	page, _ := strconv.Atoi(pageStr)
+	limit, _ := strconv.Atoi(limitStr)
+
+	list, total, err := h.repo.GetAllUsers(page, limit)
 	if err != nil {
-		c.JSON(500, gin.H{"MSG": "Error in Users List"})
+		c.JSON(500, gin.H{"error": "Error in Users List"})
 		return
 	}
-	c.JSON(200, list)
+
+	// بازگرداندن دیتا به همراه اطلاعات صفحه‌بندی
+	c.JSON(200, gin.H{
+		"data":      list,
+		"total":     total,
+		"page":      page,
+		"last_page": math.Ceil(float64(total) / float64(limit)),
+	})
 }

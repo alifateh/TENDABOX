@@ -23,7 +23,6 @@ func NewUserHandler(db *gorm.DB) *UserHandler {
 func (h *UserHandler) RegisterUser(c *gin.Context) {
 	val, _ := c.Get("validatedInput")
 
-	// حالا این خط دیگر Panic نمی‌کند
 	input := val.(models.RegisterInput)
 
 	newUser := models.User{

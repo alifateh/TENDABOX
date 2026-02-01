@@ -494,21 +494,6 @@
                   <!-- /.card-body -->
                   <div class="card-footer clearfix">
                     <ul class="pagination pagination-sm m-0 float-end">
-                      <li class="page-item">
-                        <a class="page-link" href="#">&laquo;</a>
-                      </li>
-                      <li class="page-item">
-                        <a class="page-link" href="#">1</a>
-                      </li>
-                      <li class="page-item">
-                        <a class="page-link" href="#">2</a>
-                      </li>
-                      <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                      </li>
-                      <li class="page-item">
-                        <a class="page-link" href="#">&raquo;</a>
-                      </li>
                     </ul>
                   </div>
                 </div>
@@ -644,42 +629,63 @@
           "Your Role is " + data.level;
       }
 
-      async function loadUsers() {
-        try {
-          const response = await fetch("/api/v1/user/admin/AllUsersList");
-          if (!response.ok) throw new Error("Failed to fetch users");
+let currentPage = 1;
 
-          const users = await response.json();
-          const tableBody = document.getElementById("userTableBody");
+async function loadUsers(page = 1) {
+    currentPage = page;
+    try {
+        const response = await fetch(`/api/v1/user/admin/AllUsersList?page=${page}&limit=10`);
+        const result = await response.json();
+        
+        const tableBody = document.getElementById("userTableBody");
+        tableBody.innerHTML = "";
 
-          // پاک کردن محتوای قبلی جدول
-          tableBody.innerHTML = "";
+        // دقت کنید که حالا دیتا در result.data قرار دارد
+        result.data.forEach((user) => {
+            const row = `
+                <tr class="align-middle">
+                    <td>${user.first_name}</td>
+                    <td>${user.last_name}</td>
+                    <td><span class="badge bg-secondary">${user.RoleUUID.substring(0, 8)}...</span></td>
+                    <td>
+                        <form action="/admin/security/changeRole" method="GET">
+                            <input type="hidden" name="userID" value="${user.id}">
+                            <input type="hidden" name="UserRole" value="${user.RoleUUID}">
+                            <button type="submit" class="btn btn-primary btn-sm">Change Role</button>
+                        </form>
+                    </td>
+                </tr>`;
+            tableBody.insertAdjacentHTML('beforeend', row);
+        });
 
-          users.forEach((user) => {
-            const row = document.createElement("tr");
-            row.className = "align-middle";
+        updatePagination(result.last_page, result.page);
 
-            // ایجاد محتوای ردیف
-            row.innerHTML = `
-                <td>${user.first_name}</td>
-                <td>${user.last_name}</td>
-                <td><span class="badge bg-secondary">${user.RoleUUID.substring(0, 8)}...</span></td>
-                <td>
-                    <form action="/admin/security/changeRole" method="GET">
-                        <input type="hidden" name="userID" value="${user.id}">
-                        <input type="hidden" name="UserRole" value="${user.RoleUUID}">
-                        <button type="submit" class="btn btn-primary btn-sm">
-                            <i class="bi bi-pencil-square"></i> Change Role
-                        </button>
-                    </form>
-                </td>
-            `;
-            tableBody.appendChild(row);
-          });
-        } catch (error) {
-          console.error("Error loading table:", error);
-        }
-      }
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+
+function updatePagination(lastPage, activePage) {
+    const paginationUl = document.querySelector(".pagination");
+    paginationUl.innerHTML = "";
+
+    // دکمه قبلی
+    paginationUl.innerHTML += `<li class="page-item ${activePage === 1 ? 'disabled' : ''}">
+        <a class="page-link" href="#" onclick="loadUsers(${activePage - 1})">&laquo;</a>
+    </li>`;
+
+    // اعداد صفحات
+    for (let i = 1; i <= lastPage; i++) {
+        paginationUl.innerHTML += `<li class="page-item ${i === activePage ? 'active' : ''}">
+            <a class="page-link" href="#" onclick="loadUsers(${i})">${i}</a>
+        </li>`;
+    }
+
+    // دکمه بعدی
+    paginationUl.innerHTML += `<li class="page-item ${activePage === lastPage ? 'disabled' : ''}">
+        <a class="page-link" href="#" onclick="loadUsers(${activePage + 1})">&raquo;</a>
+    </li>`;
+}
 
       checkAccess();
       document.addEventListener("DOMContentLoaded", filterMenuByNumericLevel);
