@@ -41,3 +41,8 @@ func (rp *RolePermission) BeforeCreate(tx *gorm.DB) (err error) {
 	rp.RoleUUID = uuid.NewString()
 	return
 }
+
+type UpdateRoleInput struct {
+	UserID string `json:"userID" binding:"required"`
+	RoleID string `json:"newRoleUUID" binding:"required"` // نام فیلد در JSON ارسالی
+}

@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"Tendabox/internal/models"
 	repositroy "Tendabox/internal/repository"
 	"log/slog"
 	"math"
@@ -9,11 +10,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
-
-type UpdateRoleInput struct {
-	UserID string `json:"userID" binding:"required"`
-	RoleID string `json:"newRoleUUID" binding:"required"`
-}
 
 type UserRoleHandler struct {
 	repo repositroy.UserRepository
@@ -24,11 +20,12 @@ func NewUserRoleHandler(r repositroy.UserRepository) *UserRoleHandler {
 }
 
 func (h *UserRoleHandler) UpdateRole(c *gin.Context) {
-	var input UpdateRoleInput
-	slog.Info(c.GetString("userID"))
+	var input models.UpdateRoleInput
+	slog.Info("userID =" + c.GetString("userID"))
+	slog.Info("UserRole =" + c.GetString("UserRole"))
 
 	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "INPUT data is NOT Wellform"})
+		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -59,7 +56,6 @@ func (h *UserRoleHandler) UpdateRole(c *gin.Context) {
 }
 
 func (h *UserRoleHandler) ListAllUsers(c *gin.Context) {
-	// گرفتن مقادیر از URL با مقادیر پیش‌فرض
 	pageStr := c.DefaultQuery("page", "1")
 	limitStr := c.DefaultQuery("limit", "10")
 
@@ -72,7 +68,6 @@ func (h *UserRoleHandler) ListAllUsers(c *gin.Context) {
 		return
 	}
 
-	// بازگرداندن دیتا به همراه اطلاعات صفحه‌بندی
 	c.JSON(200, gin.H{
 		"data":      list,
 		"total":     total,

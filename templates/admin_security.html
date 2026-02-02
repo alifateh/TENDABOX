@@ -52,7 +52,6 @@
     <link rel="stylesheet" href="/static/css/apexcharts.css" />
 
     <style>
-      /* نمایش اجباری لیست اصلی */
       #mainMenu {
         display: flex !important;
         flex-direction: column !important;
@@ -62,18 +61,15 @@
         padding: 0 !important;
       }
 
-      /* استایل آیتم‌های منو */
       .nav-item {
         width: 100% !important;
-        display: block !important; /* تغییر از none به block */
+        display: block !important;
       }
 
-      /* زیرمنوها در حالت عادی مخفی باشند */
       .nav-treeview {
         display: none !important;
       }
 
-      /* زیرمنوها وقتی کلاس menu-open اضافه شد نمایش داده شوند */
       .menu-open > .nav-treeview {
         display: block !important;
       }
@@ -479,6 +475,10 @@
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body">
+                    <div
+                      id="message"
+                      class="mt-3 text-center text-danger"
+                    ></div>
                     <table class="table table-bordered">
                       <thead>
                         <tr>
@@ -650,6 +650,51 @@
         return confirm(message);
       }
 
+      async function changeRole(userID, newRoleID, userName) {
+        const messageDiv = document.getElementById("message");
+        const selectElement = document.getElementById(`select-${userID}`);
+        const roleName =
+          selectElement.options[selectElement.selectedIndex].text;
+
+        // --- اضافه کردن تاییدیه در اینجا ---
+        const confirmed = confirm(
+          `Are you sure you want to change the role of "${userName}" to "${roleName}"?`,
+        );
+        if (!confirmed) {
+          return; // اگر کاربر Cancel زد، بقیه تابع اجرا نمی‌شود
+        }
+
+        // ادامه کد قبلی برای ارسال به سرور...
+        messageDiv.innerText = "Processing...";
+        messageDiv.className = "mt-3 text-center text-info";
+
+        try {
+          const response = await fetch("/api/v1/user/admin/UpdateRole", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userID: userID,
+              newRoleUUID: newRoleID,
+            }),
+          });
+
+          const result = await response.json();
+          if (response.ok) {
+            messageDiv.innerText = result.message;
+            messageDiv.className = "mt-3 text-center text-success";
+            setTimeout(() => {
+              loadUsers(currentPage);
+              messageDiv.innerText = "";
+            }, 2000);
+          } else {
+            messageDiv.innerText = "Error: " + (result.error || "Failed");
+            messageDiv.className = "mt-3 text-center text-danger";
+          }
+        } catch (error) {
+          messageDiv.innerText = "Network Error!";
+          messageDiv.className = "mt-3 text-center text-danger";
+        }
+      }
       async function loadUsers(page = 1) {
         currentPage = page;
         const limit = 10;
@@ -675,23 +720,23 @@
               })
               .join("");
 
+            
             const row = `
-                <tr class="align-middle">
-                    <td>${user.first_name}</td>
-                    <td>${user.last_name}</td>
-                    <td>
-                        <form action="/api/v1/user/admin/UpdateRole" method="POST" onsubmit="return confirmUpdate(this, '${user.first_name} ${user.last_name}')">
-                            <input type="hidden" name="userID" value="${user.id}">
-                            <div class="input-group">
-                                <select name="newRoleUUID" class="form-select form-select-sm" required>
-                                    <option value="">Select Role...</option>
-                                    ${roleOptions}
-                                </select>
-                                <button type="submit" class="btn btn-primary btn-sm">Update</button>
-                            </div>
-                        </form>
-                    </td>
-                </tr>`;
+              <tr class="align-middle">
+                  <td>${user.first_name}</td>
+                  <td>${user.last_name}</td>
+                  <td>
+                      <div class="input-group">
+                          <select id="select-${user.id}" class="form-select form-select-sm">
+                              ${roleOptions}
+                          </select>
+                          <button type="button" class="btn btn-primary btn-sm" 
+                              onclick="changeRole('${user.id}', document.getElementById('select-${user.id}').value, '${user.first_name} ${user.last_name}')">
+                              Update
+                          </button>
+                      </div>
+                  </td>
+              </tr>`;
             tableBody.insertAdjacentHTML("beforeend", row);
           });
           if (typeof updatePagination === "function") {
