@@ -75,7 +75,7 @@ func SetupRouter() *gin.Engine {
 				userRepo := repositroy.NewUserRepository(database.DB)
 				userHandler := handlers.NewUserRoleHandler(userRepo)
 				adminGroup.GET("/AllUsersList", userHandler.ListAllUsers)
-				adminGroup.GET("/UpdateRole", userHandler.UpdateRole)
+				adminGroup.POST("/UpdateRole", userHandler.UpdateRole)
 			}
 		}
 

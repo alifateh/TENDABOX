@@ -11,8 +11,8 @@ import (
 )
 
 type UpdateRoleInput struct {
-	UserID string `json:"user_id" binding:"required,uuid"`
-	RoleID string `json:"role_id" binding:"required,uuid"`
+	UserID string `json:"userID" binding:"required"`
+	RoleID string `json:"newRoleUUID" binding:"required"`
 }
 
 type UserRoleHandler struct {
@@ -25,6 +25,7 @@ func NewUserRoleHandler(r repositroy.UserRepository) *UserRoleHandler {
 
 func (h *UserRoleHandler) UpdateRole(c *gin.Context) {
 	var input UpdateRoleInput
+	slog.Info(c.GetString("userID"))
 
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "INPUT data is NOT Wellform"})

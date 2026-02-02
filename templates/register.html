@@ -153,23 +153,72 @@
           .catch((err) => console.error("Error fetching roles:", err));
       });
 
-      // ۲. تابع ارسال اطلاعات به سمت سرور
       function submitRegister() {
         const messageDiv = document.getElementById("message");
 
-        // پاک کردن پیام قبلی
+        // انتخاب فیلدها
+        const firstNameInput = document.querySelector(
+          'input[placeholder="First Name"]',
+        );
+        const lastNameInput = document.querySelector(
+          'input[placeholder="Last Name"]',
+        );
+        const emailInput = document.querySelector('input[placeholder="Email"]');
+        const passwordInput = document.querySelector(
+          'input[placeholder="Password"]',
+        );
+        const roleSelect = document.getElementById("RoleUUID");
+        const termsCheck = document.getElementById("flexCheckDefault");
+
+        
         messageDiv.innerText = "";
-        messageDiv.className = "mt-3 text-center"; // ریست کردن کلاس‌ها
+        messageDiv.className = "mt-3 text-center text-danger";
+
+        
+        const nameRegex = /^[a-zA-Zآ-ی ]{3,}$/;
+        if (!nameRegex.test(firstNameInput.value)) {
+          messageDiv.innerText = "[First] Name must include only letters and at least 3 characters";
+          return;
+        }
+        if (!nameRegex.test(lastNameInput.value)) {
+          messageDiv.innerText =
+            "[Last] Name must include only letters and at least 3 characters";
+          return;
+        }
+
+        
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(emailInput.value)) {
+          messageDiv.innerText = "Email format is not Valid !";
+          return;
+        }
+
+        
+        const passRegex = /^[a-zA-Z0-9]{6,}$/;
+        if (!passRegex.test(passwordInput.value)) {
+          messageDiv.innerText =
+            "Please choose at least 6 characters, including no special characters like (@_-!#$)";
+          return;
+        }
+
+        
+        if (roleSelect.value === "") {
+          messageDiv.innerText = "Please Selecet Your [Role]";
+          return;
+        }
+
+        
+        if (!termsCheck.checked) {
+          messageDiv.innerText = "Please Read the Terms and Then Confirm the Agreements";
+          return;
+        }
 
         const data = {
-          first_name: document.querySelector('input[placeholder="First Name"]')
-            .value,
-          last_name: document.querySelector('input[placeholder="Last Name"]')
-            .value,
-          email: document.querySelector('input[placeholder="Email"]').value,
-          password: document.querySelector('input[placeholder="Password"]')
-            .value,
-          role_uuid: document.getElementById("RoleUUID").value,
+          first_name: firstNameInput.value,
+          last_name: lastNameInput.value,
+          email: emailInput.value,
+          password: passwordInput.value,
+          role_uuid: roleSelect.value,
         };
 
         fetch("/api/v1/register", {
@@ -179,27 +228,20 @@
         })
           .then(async (response) => {
             const result = await response.json();
-
             if (response.ok) {
-              // وضعیت موفقیت
-              messageDiv.classList.add("text-success");
+              messageDiv.className = "mt-3 text-center text-success";
               messageDiv.innerText =
-                result.message || "Registration successful!";
-
-              // وقفه کوتاه برای خواندن پیام و سپس ریدایرکت
+                result.message || "Registration Successfully Done. Wait until Approval";
               setTimeout(() => {
                 window.location.href = "/";
               }, 2000);
             } else {
-              // وضعیت خطا (مثل ایمیل تکراری یا خطای ولیدیشن)
-              messageDiv.classList.add("text-danger");
-              messageDiv.innerText = result.error || "Some Information is Wrong";
+              messageDiv.innerText =
+                result.error || "Input Data is Wrong!";
             }
           })
           .catch((err) => {
-            messageDiv.classList.add("text-danger");
-            messageDiv.innerText =
-              "Internal Server Error. Please try again later.";
+            messageDiv.innerText = "Sorry, Server's Error! Please Try Again Later...";
             console.error(err);
           });
       }

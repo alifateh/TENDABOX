@@ -17,12 +17,12 @@ func RegisterValidator(c *gin.Context) {
 			listErrors := make(map[string]string)
 
 			for _, e := range errs {
-				listErrors[e.Field()] = "خطا در قانون: " + e.Tag()
+				listErrors[e.Field()] = "Error in tag :" + e.Tag()
 			}
 
 			c.JSON(http.StatusBadRequest, gin.H{"errors": listErrors})
 		} else {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "فرمت JSON ارسالی اشتباه است"})
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Input Wrong JSON Format"})
 		}
 
 		c.Abort()

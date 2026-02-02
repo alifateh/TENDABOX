@@ -67,15 +67,12 @@ func (r *userRepository) UpdateUserRole(UserID string, RoleUUID string) (err err
 
 }
 
-// اضافه کردن پارامترهای صفحه و اندازه صفحه
 func (r *userRepository) GetAllUsers(page int, pageSize int) ([]models.User, int64, error) {
 	var users []models.User
 	var total int64
 
-	// ابتدا کل تعداد کاربران را برای محاسبه تعداد صفحات در فرانت می‌گیریم
 	r.db.Model(&models.User{}).Count(&total)
 
-	// محاسبه افست: (page - 1) * pageSize
 	offset := (page - 1) * pageSize
 
 	err := r.db.Limit(pageSize).Offset(offset).Find(&users).Error

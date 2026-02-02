@@ -432,7 +432,9 @@
           <div class="container-fluid">
             <!--begin::Row-->
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Manage User's Role</h3></div>
+              <div class="col-sm-6">
+                <h3 class="mb-0">Manage User's Role</h3>
+              </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -482,19 +484,16 @@
                         <tr>
                           <th>First Name</th>
                           <th>Last Name</th>
-                          <th style="width: 40px">Role</th>
-                          <th>Action</th>
+                          <th style="width: 50%">User Role</th>
                         </tr>
                       </thead>
-                      <tbody id="userTableBody">
-                      </tbody>
+                      <tbody id="userTableBody"></tbody>
                     </table>
                   </div>
                   <!-- /.card -->
                   <!-- /.card-body -->
                   <div class="card-footer clearfix">
-                    <ul class="pagination pagination-sm m-0 float-end">
-                    </ul>
+                    <ul class="pagination pagination-sm m-0 float-end"></ul>
                   </div>
                 </div>
                 <!-- /.card -->
@@ -629,67 +628,112 @@
           "Your Role is " + data.level;
       }
 
-let currentPage = 1;
+      // متغیرهای مورد نیاز
+      let allRoles = [];
+      let currentPage = 1;
 
-async function loadUsers(page = 1) {
-    currentPage = page;
-    try {
-        const response = await fetch(`/api/v1/user/admin/AllUsersList?page=${page}&limit=10`);
-        const result = await response.json();
-        
-        const tableBody = document.getElementById("userTableBody");
-        tableBody.innerHTML = "";
+      // تابع گرفتن لیست نقش‌ها از سرور
+      async function fetchRoles() {
+        try {
+          const response = await fetch("/api/v1/roles");
+          allRoles = await response.json();
+        } catch (err) {
+          console.error("Error fetching roles:", err);
+        }
+      }
 
-        // دقت کنید که حالا دیتا در result.data قرار دارد
-        result.data.forEach((user) => {
+      function confirmUpdate(form, userName) {
+        const selectElement = form.querySelector('select[name="newRoleUUID"]');
+        const roleName =
+          selectElement.options[selectElement.selectedIndex].text;
+        const message = `Are you sure you want to change the role of "${userName}" to "${roleName}"?`;
+        return confirm(message);
+      }
+
+      async function loadUsers(page = 1) {
+        currentPage = page;
+        const limit = 10;
+
+        if (allRoles.length === 0) {
+          await fetchRoles();
+        }
+
+        try {
+          const response = await fetch(
+            `/api/v1/user/admin/AllUsersList?page=${page}&limit=${limit}`,
+          );
+          const result = await response.json();
+
+          const tableBody = document.getElementById("userTableBody");
+          tableBody.innerHTML = "";
+
+          result.data.forEach((user) => {
+            const roleOptions = allRoles
+              .map((role) => {
+                const isSelected = role.id === user.RoleUUID ? "selected" : "";
+                return `<option value="${role.id}" ${isSelected}>${role.role_name}</option>`;
+              })
+              .join("");
+
             const row = `
                 <tr class="align-middle">
                     <td>${user.first_name}</td>
                     <td>${user.last_name}</td>
-                    <td><span class="badge bg-secondary">${user.RoleUUID.substring(0, 8)}...</span></td>
                     <td>
-                        <form action="/admin/security/changeRole" method="GET">
+                        <form action="/api/v1/user/admin/UpdateRole" method="POST" onsubmit="return confirmUpdate(this, '${user.first_name} ${user.last_name}')">
                             <input type="hidden" name="userID" value="${user.id}">
-                            <input type="hidden" name="UserRole" value="${user.RoleUUID}">
-                            <button type="submit" class="btn btn-primary btn-sm">Change Role</button>
+                            <div class="input-group">
+                                <select name="newRoleUUID" class="form-select form-select-sm" required>
+                                    <option value="">Select Role...</option>
+                                    ${roleOptions}
+                                </select>
+                                <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                            </div>
                         </form>
                     </td>
                 </tr>`;
-            tableBody.insertAdjacentHTML('beforeend', row);
-        });
+            tableBody.insertAdjacentHTML("beforeend", row);
+          });
+          if (typeof updatePagination === "function") {
+            updatePagination(result.last_page, result.page);
+          }
+        } catch (error) {
+          console.error("Error loading users:", error);
+        }
+      }
 
-        updatePagination(result.last_page, result.page);
+      function updatePagination(lastPage, activePage) {
+        const paginationUl = document.querySelector(".pagination");
+        if (!paginationUl) return;
 
-    } catch (error) {
-        console.error("Error:", error);
-    }
-}
+        paginationUl.innerHTML = "";
 
-function updatePagination(lastPage, activePage) {
-    const paginationUl = document.querySelector(".pagination");
-    paginationUl.innerHTML = "";
-
-    // دکمه قبلی
-    paginationUl.innerHTML += `<li class="page-item ${activePage === 1 ? 'disabled' : ''}">
-        <a class="page-link" href="#" onclick="loadUsers(${activePage - 1})">&laquo;</a>
-    </li>`;
-
-    // اعداد صفحات
-    for (let i = 1; i <= lastPage; i++) {
-        paginationUl.innerHTML += `<li class="page-item ${i === activePage ? 'active' : ''}">
-            <a class="page-link" href="#" onclick="loadUsers(${i})">${i}</a>
+        paginationUl.innerHTML += `
+        <li class="page-item ${activePage === 1 ? "disabled" : ""}">
+            <a class="page-link" href="#" onclick="loadUsers(${activePage - 1})">&laquo;</a>
         </li>`;
-    }
 
-    // دکمه بعدی
-    paginationUl.innerHTML += `<li class="page-item ${activePage === lastPage ? 'disabled' : ''}">
-        <a class="page-link" href="#" onclick="loadUsers(${activePage + 1})">&raquo;</a>
-    </li>`;
-}
+        for (let i = 1; i <= lastPage; i++) {
+          paginationUl.innerHTML += `
+            <li class="page-item ${i === activePage ? "active" : ""}">
+                <a class="page-link" href="#" onclick="loadUsers(${i})">${i}</a>
+            </li>`;
+        }
 
+        paginationUl.innerHTML += `
+        <li class="page-item ${activePage === lastPage ? "disabled" : ""}">
+            <a class="page-link" href="#" onclick="loadUsers(${activePage + 1})">&raquo;</a>
+        </li>`;
+      }
+
+      // مدیریت لود صفحه
+      document.addEventListener("DOMContentLoaded", async () => {
+        // جلوگیری از اجرای چندباره توابع
+        filterMenuByNumericLevel();
+        await fetchRoles();
+        loadUsers(1);
+      });
       checkAccess();
-      document.addEventListener("DOMContentLoaded", filterMenuByNumericLevel);
-      document.addEventListener("DOMContentLoaded", loadUsers);
     </script>
     <!--end::OverlayScrollbars Configure-->
     <!-- OPTIONAL SCRIPTS -->
