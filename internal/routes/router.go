@@ -67,7 +67,7 @@ func SetupRouter() *gin.Engine {
 			adminGroup.Use(middleware.AuthorizeRole("Admin", "super_admin"))
 			{
 				adminGroup.GET("/security", func(c *gin.Context) {
-					c.HTML(200, "admin_security.html", gin.H{
+					c.HTML(200, "admin_ChangeUsersRole.html", gin.H{
 						"title": "Manage User's Roles",
 					})
 
