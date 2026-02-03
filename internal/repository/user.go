@@ -28,7 +28,7 @@ func NewUserRepository(DB *gorm.DB) UserRepository {
 
 func (r *userRepository) GetByEmail(email string) (*models.User, error) {
 	var user models.User
-	err := r.db.Preload("Role").Where("email = ?", email).First(&user).Error
+	err := r.db.Preload("Role").Where("email = ?", email).Where("is_active = ?", true).First(&user).Error
 	if err != nil {
 		return nil, err
 	}
@@ -84,16 +84,17 @@ func (r *userRepository) GetAllUsers(page int, pageSize int) ([]models.User, int
 	return users, total, nil
 }
 
-func (r *userRepository) UpdateUserStatus(UserID string, NewStatus bool) (err error) {
-
+func (r *userRepository) UpdateUserStatus(UserID string, NewStatus bool) error {
+	// Correct GORM syntax: Update("column_name", value)
 	result := r.db.Model(&models.User{}).
-		Where("id=?", UserID).
-		Update("is_active?", NewStatus).Error
+		Where("id = ?", UserID).
+		Update("is_active", NewStatus).Error // Removed "=" and "?" from the string
+
 	if result != nil {
-		slog.Error("Update User status faced to issue", "Error", result)
+		slog.Error("Update User status failed", "Error", result)
 		return result
 	}
-	slog.Info("Info", "UserID = ", UserID, "status Changed to = ", NewStatus)
-	return nil
 
+	slog.Info("Update Success", "UserID", UserID, "NewStatus", NewStatus)
+	return nil
 }

@@ -41,5 +41,5 @@ func (u *User) CheckPassword(providedPassword string) error {
 
 type UpdateUserStatus struct {
 	UserID string `json:"userID" binding:"required"`
-	Active string `json:"active" binding:"required"`
+	Active bool   `json:"active"`
 }

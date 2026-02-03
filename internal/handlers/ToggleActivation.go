@@ -17,30 +17,20 @@ func NewUpdateUsersStatus(r repositroy.UserRepository) *UpdateUserStatusHandler 
 }
 
 func (u *UpdateUserStatusHandler) ToggleActivation(c *gin.Context) {
-
 	var inputstatus models.UpdateUserStatus
 	if err := c.ShouldBindJSON(&inputstatus); err != nil {
-		slog.Info("userID =" + c.GetString("userID"))
-		slog.Info("active =" + c.GetString("active"))
-		c.JSON(400, gin.H{
-			"message": "Error: Data is NOT Well Formed!",
-		})
+		// Log the raw error to see exactly why binding failed
+		slog.Error("Binding failed", "error", err)
+		c.JSON(400, gin.H{"message": "Error: Data is NOT Well Formed!"})
 		return
 	}
 
-	NewStatus := false
-	if inputstatus.Active == "activate" {
-		NewStatus = true
-	}
-
-	err_repo := u.reposit.UpdateUserStatus(inputstatus.UserID, NewStatus)
+	// Now inputstatus.Active is already a bool (true/false)
+	err_repo := u.reposit.UpdateUserStatus(inputstatus.UserID, inputstatus.Active)
 	if err_repo != nil {
-		c.JSON(400, gin.H{
-			"message": "Error: Data is NOT Well Formed!",
-		})
+		c.JSON(500, gin.H{"message": "Update failed in database"})
 		return
 	}
-	c.JSON(200, gin.H{
-		"message": "User status updated successfully",
-	})
+
+	c.JSON(200, gin.H{"message": "Status updated successfully"})
 }
