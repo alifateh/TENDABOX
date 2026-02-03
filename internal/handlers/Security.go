@@ -21,10 +21,10 @@ func NewUserRoleHandler(r repositroy.UserRepository) *UserRoleHandler {
 
 func (h *UserRoleHandler) UpdateRole(c *gin.Context) {
 	var input models.UpdateRoleInput
-	slog.Info("userID =" + c.GetString("userID"))
-	slog.Info("UserRole =" + c.GetString("UserRole"))
 
 	if err := c.ShouldBindJSON(&input); err != nil {
+		slog.Info("userID =" + c.GetString("userID"))
+		slog.Info("UserRole =" + c.GetString("UserRole"))
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}

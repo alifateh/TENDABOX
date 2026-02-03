@@ -72,10 +72,19 @@ func SetupRouter() *gin.Engine {
 					})
 
 				})
+				adminGroup.GET("/usermangment", func(c *gin.Context) {
+					c.HTML(200, "admin_ActiveUsers.html", gin.H{
+						"title": "User Managment",
+					})
+
+				})
 				userRepo := repositroy.NewUserRepository(database.DB)
 				userHandler := handlers.NewUserRoleHandler(userRepo)
 				adminGroup.GET("/AllUsersList", userHandler.ListAllUsers)
 				adminGroup.POST("/UpdateRole", userHandler.UpdateRole)
+
+				updatestatus_handler := handlers.NewUpdateUsersStatus(userRepo)
+				adminGroup.POST("/ToggleActivation", updatestatus_handler.ToggleActivation)
 			}
 		}
 

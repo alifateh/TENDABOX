@@ -237,7 +237,8 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="/api/v1/user/admin/usermangment" class="nav-link" ><i class="nav-icon bi bi-circle text-warning"></i>
+                    <a href="/api/v1/user/admin/usermangment" class="nav-link"
+                      ><i class="nav-icon bi bi-circle text-warning"></i>
                       <p>User Management</p></a
                     >
                   </li>
@@ -428,13 +429,13 @@
             <!--begin::Row-->
             <div class="row">
               <div class="col-sm-6">
-                <h3 class="mb-0">Manage User's Role</h3>
+                <h3 class="mb-0">Account Activation</h3>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
                   <li class="breadcrumb-item active" aria-current="page">
-                    Manage User's Role
+                    Account Activation
                   </li>
                 </ol>
               </div>
@@ -453,7 +454,7 @@
               <div class="col-md-12">
                 <div class="card mb-12">
                   <div class="card-header">
-                    <h5 class="card-title">Manage User's Role</h5>
+                    <h5 class="card-title">Account Activation</h5>
                     <div class="card-tools">
                       <button
                         type="button"
@@ -483,7 +484,8 @@
                         <tr>
                           <th>First Name</th>
                           <th>Last Name</th>
-                          <th style="width: 50%">User Role</th>
+                          <th>Role</th>
+                          <th style="width: 50%">Activation Status</th>
                         </tr>
                       </thead>
                       <tbody id="userTableBody"></tbody>
@@ -627,11 +629,10 @@
           "Your Role is " + data.level;
       }
 
-      // متغیرهای مورد نیاز
       let allRoles = [];
       let currentPage = 1;
 
-      // تابع گرفتن لیست نقش‌ها از سرور
+      // Fetch role definitions to map UUIDs to Names
       async function fetchRoles() {
         try {
           const response = await fetch("/api/v1/roles");
@@ -641,52 +642,42 @@
         }
       }
 
-      function confirmUpdate(form, userName) {
-        const selectElement = form.querySelector('select[name="newRoleUUID"]');
-        const roleName =
-          selectElement.options[selectElement.selectedIndex].text;
-        const message = `Are you sure you want to change the role of "${userName}" to "${roleName}"?`;
-        return confirm(message);
-      }
-
-      async function changeRole(userID, newRoleID, userName) {
+      // Handle Activation/Deactivation
+      async function toggleActivation(userId, currentStatus, userName) {
         const messageDiv = document.getElementById("message");
-        const selectElement = document.getElementById(`select-${userID}`);
-        const roleName =
-          selectElement.options[selectElement.selectedIndex].text;
+        const action = currentStatus ? "deactivate" : "activate";
 
-        // --- اضافه کردن تاییدیه در اینجا ---
         const confirmed = confirm(
-          `Are you sure you want to change the role of "${userName}" to "${roleName}"?`,
+          `Are you sure you want to ${action} user "${userName}"?`,
         );
-        if (!confirmed) {
-          return; // اگر کاربر Cancel زد، بقیه تابع اجرا نمی‌شود
-        }
 
-        // ادامه کد قبلی برای ارسال به سرور...
+        if (!confirmed) return;
+
         messageDiv.innerText = "Processing...";
         messageDiv.className = "mt-3 text-center text-info";
 
         try {
-          const response = await fetch("/api/v1/user/admin/UpdateRole", {
+          const response = await fetch("/api/v1/user/admin/ToggleActivation", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              userID: userID,
-              newRoleUUID: newRoleID,
+              userID: userId,
+              active: !currentStatus,
             }),
           });
 
           const result = await response.json();
+
           if (response.ok) {
-            messageDiv.innerText = result.message;
+            messageDiv.innerText = result.message || "Operation successful";
             messageDiv.className = "mt-3 text-center text-success";
             setTimeout(() => {
               loadUsers(currentPage);
               messageDiv.innerText = "";
             }, 2000);
           } else {
-            messageDiv.innerText = "Error: " + (result.error || "Failed");
+            messageDiv.innerText =
+              "Error: " + (result.error || "Action failed");
             messageDiv.className = "mt-3 text-center text-danger";
           }
         } catch (error) {
@@ -694,6 +685,8 @@
           messageDiv.className = "mt-3 text-center text-danger";
         }
       }
+
+      // Main function to load users and render the table
       async function loadUsers(page = 1) {
         currentPage = page;
         const limit = 10;
@@ -712,63 +705,85 @@
           tableBody.innerHTML = "";
 
           result.data.forEach((user) => {
-            const roleOptions = allRoles
-              .map((role) => {
-                const isSelected = role.id === user.RoleUUID ? "selected" : "";
-                return `<option value="${role.id}" ${isSelected}>${role.role_name}</option>`;
-              })
-              .join("");
+            const fullName = `${user.first_name} ${user.last_name}`;
+            const userRole = allRoles.find((r) => r.id === user.RoleUUID);
+            const roleName = userRole ? userRole.role_name : "Unknown";
 
-            
+            let statusHTML = "";
+            if (user.is_active === true) {
+              statusHTML = `
+              <span class="fw-bold" style="color: green;">activated</span>
+              <button type="button" class="btn btn-danger btn-sm ms-2" 
+                  onclick="toggleActivation('${user.id}', true, '${fullName}')">
+                  Deactive
+              </button>`;
+            } else {
+              statusHTML = `
+              <span class="fw-bold" style="color: red;">deactivated</span>
+              <button type="button" class="btn btn-success btn-sm ms-2" 
+                  onclick="toggleActivation('${user.id}', false, '${fullName}')">
+                  Active
+              </button>`;
+            }
+
             const row = `
-              <tr class="align-middle">
-                  <td>${user.first_name}</td>
-                  <td>${user.last_name}</td>
-                  <td>
-                      <div class="input-group">
-                          <select id="select-${user.id}" class="form-select form-select-sm">
-                              ${roleOptions}
-                          </select>
-                          <button type="button" class="btn btn-primary btn-sm" 
-                              onclick="changeRole('${user.id}', document.getElementById('select-${user.id}').value, '${user.first_name} ${user.last_name}')">
-                              Update
-                          </button>
-                      </div>
-                  </td>
-              </tr>`;
+          <tr class="align-middle">
+              <td>${user.first_name}</td>
+              <td>${user.last_name}</td>
+              <td><span class="badge bg-primary">${roleName}</span></td>
+              <td>
+                  <div class="activation-zone text-center">
+                      ${statusHTML}
+                  </div>
+              </td>
+          </tr>`;
+
             tableBody.insertAdjacentHTML("beforeend", row);
           });
-          if (typeof updatePagination === "function") {
-            updatePagination(result.last_page, result.page);
-          }
+
+          // Update Pagination UI
+          updatePagination(result.last_page, result.page);
         } catch (error) {
           console.error("Error loading users:", error);
+          document.getElementById("message").innerText =
+            "Error loading user list.";
         }
       }
 
+      // Function to generate pagination links
       function updatePagination(lastPage, activePage) {
         const paginationUl = document.querySelector(".pagination");
         if (!paginationUl) return;
 
         paginationUl.innerHTML = "";
 
+        // Previous Button
         paginationUl.innerHTML += `
-        <li class="page-item ${activePage === 1 ? "disabled" : ""}">
-            <a class="page-link" href="#" onclick="loadUsers(${activePage - 1})">&laquo;</a>
-        </li>`;
+    <li class="page-item ${activePage === 1 ? "disabled" : ""}">
+        <a class="page-link" href="javascript:void(0)" onclick="loadUsers(${activePage - 1})">&laquo;</a>
+    </li>`;
 
+        // Page Numbers
         for (let i = 1; i <= lastPage; i++) {
           paginationUl.innerHTML += `
-            <li class="page-item ${i === activePage ? "active" : ""}">
-                <a class="page-link" href="#" onclick="loadUsers(${i})">${i}</a>
-            </li>`;
+      <li class="page-item ${i === activePage ? "active" : ""}">
+          <a class="page-link" href="javascript:void(0)" onclick="loadUsers(${i})">${i}</a>
+      </li>`;
         }
 
+        // Next Button
         paginationUl.innerHTML += `
-        <li class="page-item ${activePage === lastPage ? "disabled" : ""}">
-            <a class="page-link" href="#" onclick="loadUsers(${activePage + 1})">&raquo;</a>
-        </li>`;
+    <li class="page-item ${activePage === lastPage ? "disabled" : ""}">
+        <a class="page-link" href="javascript:void(0)" onclick="loadUsers(${activePage + 1})">&raquo;</a>
+    </li>`;
       }
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        if (typeof filterMenuByNumericLevel === "function")
+          filterMenuByNumericLevel();
+        await fetchRoles();
+        loadUsers(1);
+      });
 
       // مدیریت لود صفحه
       document.addEventListener("DOMContentLoaded", async () => {

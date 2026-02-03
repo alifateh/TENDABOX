@@ -14,6 +14,7 @@ type UserRepository interface {
 	GetAllUsers(page int, pageSize int) ([]models.User, int64, error)
 	CreateUser(user *models.User) error
 	UpdateUserRole(UserID string, RoleUUID string) (err error)
+	UpdateUserStatus(UserID string, NewStatus bool) (err error)
 }
 
 type userRepository struct {
@@ -81,4 +82,18 @@ func (r *userRepository) GetAllUsers(page int, pageSize int) ([]models.User, int
 	}
 
 	return users, total, nil
+}
+
+func (r *userRepository) UpdateUserStatus(UserID string, NewStatus bool) (err error) {
+
+	result := r.db.Model(&models.User{}).
+		Where("id=?", UserID).
+		Update("is_active?", NewStatus).Error
+	if result != nil {
+		slog.Error("Update User status faced to issue", "Error", result)
+		return result
+	}
+	slog.Info("Info", "UserID = ", UserID, "status Changed to = ", NewStatus)
+	return nil
+
 }

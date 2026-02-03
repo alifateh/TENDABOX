@@ -325,7 +325,7 @@ func SeedMenus(db *gorm.DB) error {
 		{ItemName: "Dashboard", URLPath: "/dashboard", MinLevel: 50, Icon: "bi bi-speedometer", ParentName: ""},
 
 		// --- System Admin Group (Level 2000) ---
-		{ItemName: "User Security & Roles", URLPath: "/admin/security", MinLevel: 2000, Icon: "bi bi-shield-lock", ParentName: "System Control"},
+		{ItemName: "User Security & Roles", URLPath: "/api/v1/user/admin/security", MinLevel: 2000, Icon: "bi bi-shield-lock", ParentName: "System Control"},
 		{ItemName: "System Health & Logs", URLPath: "/admin/system/health", MinLevel: 2000, Icon: "bi bi-terminal", ParentName: "System Control"},
 		{ItemName: "Global Settings", URLPath: "/admin/settings", MinLevel: 2000, Icon: "bi bi-gear", ParentName: "System Control"},
 

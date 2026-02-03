@@ -38,3 +38,8 @@ func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 func (u *User) CheckPassword(providedPassword string) error {
 	return bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(providedPassword))
 }
+
+type UpdateUserStatus struct {
+	UserID string `json:"userID" binding:"required"`
+	Active string `json:"active" binding:"required"`
+}
