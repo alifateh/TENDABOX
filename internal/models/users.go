@@ -43,3 +43,7 @@ type UpdateUserStatus struct {
 	UserID string `json:"userID" binding:"required"`
 	Active bool   `json:"active"`
 }
+
+type UserProfile struct {
+	UserID string `json:"userID" binding:"required"`
+}

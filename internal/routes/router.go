@@ -26,7 +26,7 @@ func SetupRouter() *gin.Engine {
 
 	r.GET("/dashboard", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "dashboard.html", gin.H{
-			"title": "Dashboard",
+			"title": "TendaBOX| Dashboard",
 		})
 	})
 	r.GET("/sample", func(c *gin.Context) {
@@ -34,7 +34,7 @@ func SetupRouter() *gin.Engine {
 	})
 	r.GET("/register", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "register.html", gin.H{
-			"title": "Registeration",
+			"title": "TendaBOX| Registeration",
 		})
 	})
 
@@ -61,6 +61,11 @@ func SetupRouter() *gin.Engine {
 		{
 			userGroup.GET("/Accesslevel", handlers.GetAccessLevel)
 			userGroup.GET("/MyMenu", handlers.GenerateMenu)
+			userGroup.GET("/myprofile", func(c *gin.Context) {
+				c.HTML(200, "profile.html", gin.H{
+					"title": "TendaBOX| Profile",
+				})
+			})
 
 			//Admin Routes
 			adminGroup := userGroup.Group("/admin")
@@ -85,6 +90,11 @@ func SetupRouter() *gin.Engine {
 
 				updatestatus_handler := handlers.NewUpdateUsersStatus(userRepo)
 				adminGroup.POST("/ToggleActivation", updatestatus_handler.ToggleActivation)
+
+				profileHandler := &handlers.ProfileHandler{
+					Repo: userRepo,
+				}
+				r.POST("/api/v1/user/profile", profileHandler.GetProfile)
 			}
 		}
 

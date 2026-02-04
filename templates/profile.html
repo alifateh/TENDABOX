@@ -3,7 +3,7 @@
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-     <title>{{.title}}</title>
+    <title>{{.title}}</title>
     <!--begin::Accessibility Meta Tags-->
 
     <!--end::Accessibility Meta Tags-->
@@ -51,8 +51,7 @@
     <!-- apexcharts -->
     <link rel="stylesheet" href="/static/css/apexcharts.css" />
 
-        <style>
-       
+    <style>
       #mainMenu {
         display: flex !important;
         flex-direction: column !important;
@@ -62,18 +61,15 @@
         padding: 0 !important;
       }
 
-        
       .nav-item {
         width: 100% !important;
-        display: block !important; 
+        display: block !important;
       }
 
-         
       .nav-treeview {
         display: none !important;
       }
 
-      
       .menu-open > .nav-treeview {
         display: block !important;
       }
@@ -167,7 +163,11 @@
                 <!--end::Menu Body-->
                 <!--begin::Menu Footer-->
                 <li class="user-footer">
-                  <a href="/api/v1/user/myprofile" class="btn btn-default btn-flat">Profile</a>
+                  <a
+                    href="/api/v1/user/myprofile"
+                    class="btn btn-default btn-flat"
+                    >Profile</a
+                  >
                   <a
                     href="#"
                     class="btn btn-default btn-flat float-end"
@@ -186,7 +186,7 @@
       </nav>
       <!--end::Header-->
       <!--begin::Sidebar-->
-            <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+      <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
         <div class="sidebar-wrapper">
           <nav class="mt-2">
             <ul
@@ -241,7 +241,8 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="/api/v1/user/admin/usermangment" class="nav-link" ><i class="nav-icon bi bi-circle text-warning"></i>
+                    <a href="/api/v1/user/admin/usermangment" class="nav-link"
+                      ><i class="nav-icon bi bi-circle text-warning"></i>
                       <p>User Management</p></a
                     >
                   </li>
@@ -325,7 +326,7 @@
                   <li class="nav-item">
                     <a href="/audit/dashboard" class="nav-link"
                       ><i class="nav-icon bi bi-circle text-danger"></i>
-                      
+
                       <p>Audit Dashboard</p></a
                     >
                   </li>
@@ -431,12 +432,12 @@
           <div class="container-fluid">
             <!--begin::Row-->
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Sample Page</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">My Profile</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
                   <li class="breadcrumb-item active" aria-current="page">
-                    Sample Page
+                    My Profile
                   </li>
                 </ol>
               </div>
@@ -455,7 +456,7 @@
               <div class="col-md-12">
                 <div class="card mb-12">
                   <div class="card-header">
-                    <h5 class="card-title">Sample Page</h5>
+                    <h5 class="card-title">My Profile</h5>
                     <div class="card-tools">
                       <button
                         type="button"
@@ -476,20 +477,7 @@
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body">
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
+                    <div id="profile"></div>
                   </div>
                   <!-- /.card -->
                   <!-- /.card-body -->
@@ -567,7 +555,7 @@
           if (!response.ok) throw new Error("API Response Error");
 
           const result = await response.json();
-          const roleName = result.level.toLowerCase().trim(); 
+          const roleName = result.level.toLowerCase().trim();
           //console.log("User Role Name:", roleName);
 
           const roleToLevel = {
@@ -605,7 +593,6 @@
             }
           });
 
-          
           const mainMenu = document.getElementById("mainMenu");
           mainMenu.style.setProperty("visibility", "visible", "important");
           mainMenu.style.setProperty("opacity", "1", "important");
@@ -629,6 +616,131 @@
           "Your Role is " + data.level;
       }
       checkAccess();
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async function () {
+        const profileDiv = document.getElementById("profile");
+
+        try {
+          // 1. دریافت اطلاعات کاربر و نقش‌ها به صورت همزمان
+          const [userRes, rolesRes] = await Promise.all([
+            fetch("/api/v1/user/me"), // فرض بر این است که این API اطلاعات کاربر را می‌دهد
+            fetch("/api/v1/roles"),
+          ]);
+
+          const userData = await userRes.json();
+          const rolesData = await rolesRes.json();
+
+          // پیدا کردن نام نقش بر اساس RoleUUID
+          const userRole = rolesData.find(
+            (r) => r.id === userData.role_uuid,
+          ) || { role_name: "Unknown" };
+
+          // 2. رندر کردن محتوا در HTML
+          profileDiv.innerHTML = `
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">First Name</label>
+                    <p class="form-control-plaintext border-bottom">${userData.first_name || "N/A"}</p>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Last Name</label>
+                    <p class="form-control-plaintext border-bottom">${userData.last_name || "N/A"}</p>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Email</label>
+                    <p class="form-control-plaintext border-bottom">${userData.email}</p>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Role</label>
+                    <p class="form-control-plaintext border-bottom"><span class="badge bg-info text-dark">${userRole.role_name}</span></p>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="card border-warning">
+                <div class="card-header bg-warning text-dark">
+                    <h6 class="mb-0"><i class="bi bi-shield-lock-fill me-2"></i>Change Password</h6>
+                </div>
+                <div class="card-body">
+                    <form id="changePasswordForm">
+                        <div class="mb-3">
+                            <label for="oldPassword" class="form-label">Old Password</label>
+                            <input type="password" class="form-control" id="oldPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">New Password</label>
+                            <input type="password" class="form-control" id="newPassword" required>
+                            <div class="form-text">Must be more than 6 characters and no special characters.</div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Password</button>
+                    </form>
+                </div>
+            </div>
+        `;
+
+          // 3. مدیریت سابمیت فرم و اعتبارسنجی
+          const passwordForm = document.getElementById("changePasswordForm");
+          passwordForm.addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const oldPass = document.getElementById("oldPassword").value;
+            const newPass = document.getElementById("newPassword").value;
+
+            // اعتبارسنجی: طول بیشتر از 6
+            if (newPass.length <= 6) {
+              alert("Error: Password must be more than 6 characters!");
+              return;
+            }
+
+            // اعتبارسنجی: عدم وجود کاراکتر خاص (فقط حروف و اعداد)
+            const specialCharReg = /^[a-zA-Z0-9]+$/;
+            if (!specialCharReg.test(newPass)) {
+              alert(
+                "Error: Special characters are not allowed in the password!",
+              );
+              return;
+            }
+
+            // سوال کانفرم از کاربر
+            const confirmChange = confirm(
+              "Are you sure you want to change your password?",
+            );
+            if (!confirmChange) return;
+
+            // ارسال به API (فرضی)
+            try {
+              const response = await fetch("/api/v1/user/change-password", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  old_password: oldPass,
+                  new_password: newPass,
+                }),
+              });
+
+              if (response.ok) {
+                alert("Success: Password changed successfully!");
+                passwordForm.reset();
+              } else {
+                const err = await response.json();
+                alert(
+                  "Server Error: " +
+                    (err.message || "Failed to update password"),
+                );
+              }
+            } catch (error) {
+              console.error("Fetch error:", error);
+              alert("Connection error!");
+            }
+          });
+        } catch (error) {
+          console.error("Error loading profile:", error);
+          profileDiv.innerHTML = `<div class="alert alert-danger">Error loading profile data. Please try again.</div>`;
+        }
+      });
     </script>
     <!--end::OverlayScrollbars Configure-->
     <!-- OPTIONAL SCRIPTS -->

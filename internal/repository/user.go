@@ -15,6 +15,7 @@ type UserRepository interface {
 	CreateUser(user *models.User) error
 	UpdateUserRole(UserID string, RoleUUID string) (err error)
 	UpdateUserStatus(UserID string, NewStatus bool) (err error)
+	GetUserProfile(UserID string) (*models.User, error)
 }
 
 type userRepository struct {
@@ -97,4 +98,12 @@ func (r *userRepository) UpdateUserStatus(UserID string, NewStatus bool) error {
 
 	slog.Info("Update Success", "UserID", UserID, "NewStatus", NewStatus)
 	return nil
+}
+
+func (r *userRepository) GetUserProfile(UserID string) (*models.User, error) {
+	var user models.User
+	if err := r.db.Where("id = ?", UserID).First(&user).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
 }
