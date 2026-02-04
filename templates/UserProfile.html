@@ -164,7 +164,7 @@
                 <!--begin::Menu Footer-->
                 <li class="user-footer">
                   <a
-                    href="/api/v1/user/myprofile"
+                    href="/api/v1/user/view-profile"
                     class="btn btn-default btn-flat"
                     >Profile</a
                   >
@@ -623,21 +623,14 @@
         const profileDiv = document.getElementById("profile");
 
         try {
-          // 1. دریافت اطلاعات کاربر و نقش‌ها به صورت همزمان
-          const [userRes, rolesRes] = await Promise.all([
-            fetch("/api/v1/user/me"), // فرض بر این است که این API اطلاعات کاربر را می‌دهد
-            fetch("/api/v1/roles"),
-          ]);
+          const response = await fetch("/api/v1/user/myprofile");
+          if (!response.ok) throw new Error("مشکل در دریافت اطلاعات پروفایل");
 
-          const userData = await userRes.json();
-          const rolesData = await rolesRes.json();
+          const userData = await response.json();
+          const roleName = userData.Role?.role_name || "Unknown";
 
-          // پیدا کردن نام نقش بر اساس RoleUUID
-          const userRole = rolesData.find(
-            (r) => r.id === userData.role_uuid,
-          ) || { role_name: "Unknown" };
+          console.log("User Role:", roleName);
 
-          // 2. رندر کردن محتوا در HTML
           profileDiv.innerHTML = `
             <div class="row g-3">
                 <div class="col-md-6">
@@ -654,7 +647,7 @@
                 </div>
                 <div class="col-md-6">
                     <label class="form-label fw-bold">Role</label>
-                    <p class="form-control-plaintext border-bottom"><span class="badge bg-info text-dark">${userRole.role_name}</span></p>
+                    <p class="form-control-plaintext border-bottom"><span class="badge bg-info text-dark">${roleName}</span></p>
                 </div>
             </div>
 
@@ -681,7 +674,6 @@
             </div>
         `;
 
-          // 3. مدیریت سابمیت فرم و اعتبارسنجی
           const passwordForm = document.getElementById("changePasswordForm");
           passwordForm.addEventListener("submit", async function (e) {
             e.preventDefault();
@@ -689,13 +681,11 @@
             const oldPass = document.getElementById("oldPassword").value;
             const newPass = document.getElementById("newPassword").value;
 
-            // اعتبارسنجی: طول بیشتر از 6
             if (newPass.length <= 6) {
               alert("Error: Password must be more than 6 characters!");
               return;
             }
 
-            // اعتبارسنجی: عدم وجود کاراکتر خاص (فقط حروف و اعداد)
             const specialCharReg = /^[a-zA-Z0-9]+$/;
             if (!specialCharReg.test(newPass)) {
               alert(
@@ -704,13 +694,11 @@
               return;
             }
 
-            // سوال کانفرم از کاربر
             const confirmChange = confirm(
               "Are you sure you want to change your password?",
             );
             if (!confirmChange) return;
 
-            // ارسال به API (فرضی)
             try {
               const response = await fetch("/api/v1/user/change-password", {
                 method: "POST",

@@ -24,9 +24,10 @@ func JWTAuth() gin.HandlerFunc {
 			return
 		}
 
-		slog.Info("User token check and it was ok", "Client IP =", c.ClientIP())
+		slog.Info("JWT Token was exist", "Client IP =", c.ClientIP())
 		c.Set("userID", claims.UserID)
 		c.Set("userLevel", claims.Level)
+		c.Set("userROleID", claims.RoleUUID)
 		c.Next()
 	}
 }

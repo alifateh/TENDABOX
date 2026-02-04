@@ -17,7 +17,7 @@ func SetupRouter() *gin.Engine {
 	r.LoadHTMLGlob("templates/*")
 	r.Static("./static", "./static")
 
-	// --- مسیرهای Frontend (رندر کردن صفحات) ---
+	// Static Public Route
 	r.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", gin.H{
 			"title": "TendaBOX",
@@ -37,6 +37,8 @@ func SetupRouter() *gin.Engine {
 			"title": "TendaBOX| Registeration",
 		})
 	})
+
+	//404
 
 	r.NoRoute(func(c *gin.Context) {
 		slog.Warn("URL Not Found", "Error 404", c.Request.RequestURI)
@@ -61,10 +63,16 @@ func SetupRouter() *gin.Engine {
 		{
 			userGroup.GET("/Accesslevel", handlers.GetAccessLevel)
 			userGroup.GET("/MyMenu", handlers.GenerateMenu)
-			userGroup.GET("/myprofile", func(c *gin.Context) {
-				c.HTML(200, "profile.html", gin.H{
-					"title": "TendaBOX| Profile",
-				})
+
+			userRepo := repositroy.NewUserRepository(database.DB)
+			profileHandler := &handlers.ProfileHandler{Repo: userRepo}
+
+			// آدرس نهایی: /api/v1/user/myprofile
+			userGroup.GET("/myprofile", profileHandler.GetProfile)
+
+			// روت HTML پروفایل (اگر نامش را عوض کنید بهتر است تا با API تداخل نکند)
+			userGroup.GET("/view-profile", func(c *gin.Context) {
+				c.HTML(200, "UserProfile.html", gin.H{"title": "TendaBOX| Profile"})
 			})
 
 			//Admin Routes
@@ -90,11 +98,6 @@ func SetupRouter() *gin.Engine {
 
 				updatestatus_handler := handlers.NewUpdateUsersStatus(userRepo)
 				adminGroup.POST("/ToggleActivation", updatestatus_handler.ToggleActivation)
-
-				profileHandler := &handlers.ProfileHandler{
-					Repo: userRepo,
-				}
-				r.POST("/api/v1/user/profile", profileHandler.GetProfile)
 			}
 		}
 

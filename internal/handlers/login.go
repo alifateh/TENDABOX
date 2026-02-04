@@ -45,7 +45,7 @@ func Login(c *gin.Context) {
 		roleName = user.Role.Name
 	}
 
-	token, err := auth.GenerateToken(user.ID, roleName)
+	token, err := auth.GenerateToken(user.ID, roleName, user.RoleUUID)
 	if err != nil {
 		slog.Error("JWT Error", "err", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Craeting Token is Failed"})

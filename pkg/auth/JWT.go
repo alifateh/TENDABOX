@@ -8,17 +8,19 @@ import (
 )
 
 type CustomClaims struct {
-	UserID string `json:"user_id"`
-	Level  string `json:"level"`
+	UserID   string `json:"user_id"`
+	Level    string `json:"level"`
+	RoleUUID string `json:"role_id"`
 	jwt.RegisteredClaims
 }
 
 var secretKey = []byte("Xper!@")
 
-func GenerateToken(userID, level string) (string, error) {
+func GenerateToken(userID, level, RoleID string) (string, error) {
 	claims := CustomClaims{
-		UserID: userID,
-		Level:  level,
+		UserID:   userID,
+		Level:    level,
+		RoleUUID: RoleID,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ID:        uuid.New().String(),
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour)),

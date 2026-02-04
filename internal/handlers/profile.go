@@ -1,32 +1,29 @@
 package handlers
 
 import (
-	"Tendabox/internal/models" // اصلاح غلط املایی پکیج (repository)
+	middleware "Tendabox/internal/middelwars"
 	repositroy "Tendabox/internal/repository"
 
 	"github.com/gin-gonic/gin"
 )
 
-// تغییر نام برای جلوگیری از تداخل (Redeclaration)
 type ProfileHandler struct {
 	Repo repositroy.UserRepository
 }
 
-// سازنده برای هندلر (اختیاری اما استاندارد)
 func NewProfileHandler(r repositroy.UserRepository) *ProfileHandler {
 	return &ProfileHandler{Repo: r}
 }
 
 func (h *ProfileHandler) GetProfile(c *gin.Context) {
-	var input models.UserProfile
-	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(400, gin.H{"message": "Data is NOT Well Formed!"})
+	userPtr := middleware.CleanID(c)
+	if userPtr == nil {
 		return
 	}
 
-	profile, err := h.Repo.GetUserProfile(input.UserID)
+	profile, err := h.Repo.GetUserProfile(userPtr.ID)
 	if err != nil {
-		c.JSON(500, gin.H{"error": "User Profile not found"})
+		c.JSON(404, gin.H{"error": "Profile not found in database"})
 		return
 	}
 

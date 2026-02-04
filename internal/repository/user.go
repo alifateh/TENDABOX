@@ -102,7 +102,7 @@ func (r *userRepository) UpdateUserStatus(UserID string, NewStatus bool) error {
 
 func (r *userRepository) GetUserProfile(UserID string) (*models.User, error) {
 	var user models.User
-	if err := r.db.Where("id = ?", UserID).First(&user).Error; err != nil {
+	if err := r.db.Preload("Role").Where("id = ?", UserID).First(&user).Error; err != nil {
 		return nil, err
 	}
 	return &user, nil

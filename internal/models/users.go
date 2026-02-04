@@ -23,6 +23,15 @@ type User struct {
 	DeletedAt gorm.DeletedAt `json:"deleted_at"`
 }
 
+type UpdateUserStatus struct {
+	UserID string `json:"userID" binding:"required"`
+	Active bool   `json:"active"`
+}
+
+type UserProfile struct {
+	UserID string `json:"userID" binding:"required"`
+}
+
 func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 	u.ID = uuid.New().String()
 	u.IsActive = false
@@ -37,13 +46,4 @@ func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 
 func (u *User) CheckPassword(providedPassword string) error {
 	return bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(providedPassword))
-}
-
-type UpdateUserStatus struct {
-	UserID string `json:"userID" binding:"required"`
-	Active bool   `json:"active"`
-}
-
-type UserProfile struct {
-	UserID string `json:"userID" binding:"required"`
 }
